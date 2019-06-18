@@ -8,10 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Spring Boot 启动类
  */
 @SpringBootApplication
-public class TimesheetApiApplication {
+public class TimesheetApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(TimesheetApiApplication.class, args);
+        SpringApplication.run(TimesheetApplication.class, args);
     }
 
 }
