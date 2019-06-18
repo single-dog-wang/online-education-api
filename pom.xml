@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.wodeer</groupId>
-    <artifactId>timesheet-api</artifactId>
+    <artifactId>timesheet</artifactId>
     <version>1.0.0</version>
     <name>timesheet-api</name>
     <description>实验项目，工作日志系统 API</description>
