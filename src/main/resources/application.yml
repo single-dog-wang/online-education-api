@@ -1,0 +1,8 @@
+server:
+  port: 7141
+  servlet:
+    context-path: /timesheet/api/v1
+
+spring:
+  application:
+    name: timesheet-api
