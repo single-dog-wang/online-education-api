@@ -6,3 +6,33 @@ server:
 spring:
   application:
     name: timesheet-api
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    name: timesheet_dev
+    url: jdbc:mysql://120.77.237.202:3306/timesheet_dev?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+    username: user4timesheet_dev
+    password: hGV5h74
+    hikari:
+      pool-name: timesheet-api
+      minimum-idle: 2
+      maximum-pool-size: 4
+      max-lifetime: 180000
+      idle-timeout: 170000
+  redis:
+    host: 120.77.237.202
+    port: 6379
+    database: 15
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto
+  mapper-locations: classpath*:mapper/*Mapper.xml
+
+logging:
+  level:
+    root: info
+    com.wodeer.timesheet.dao: debug
+
+misc:
+  enable-output-unknown-exception: true
