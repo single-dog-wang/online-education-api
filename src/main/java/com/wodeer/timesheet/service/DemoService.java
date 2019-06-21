@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.wodeer.timesheet.dao.DemoMapper;
+import com.wodeer.timesheet.dao.DemoDao;
 import com.wodeer.timesheet.entity.Demo;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2019-06-19 15:18
  */
 @Service
-public class DemoService extends ServiceImpl<DemoMapper, Demo> {
+public class DemoService extends ServiceImpl<DemoDao, Demo> {
     public List<Demo> queryDemo(String name, Integer maxId) {
         LambdaQueryWrapper<Demo> lambdaQuery = new LambdaQueryWrapper<>();
         lambdaQuery.like(Demo::getDemoName, name)

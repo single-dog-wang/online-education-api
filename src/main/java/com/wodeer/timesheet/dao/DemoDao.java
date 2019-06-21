@@ -10,6 +10,6 @@ import java.util.List;
  * @author richard
  * @date 2019-06-19 15:04
  */
-public interface DemoMapper extends BaseMapper<Demo> {
+public interface DemoDao extends BaseMapper<Demo> {
     List<Demo> customerQuery(@Param("id") Integer id);
 }
