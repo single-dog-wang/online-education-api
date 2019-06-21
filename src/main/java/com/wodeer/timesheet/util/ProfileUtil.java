@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 public final class ProfileUtil {
     private static final String ATTRIBUTE_USER_PROFILE = "USER_PROFILE";
 
-    public static TokenDto getUserProfile(HttpServletRequest request) {
+    private static TokenDto getUserProfile(HttpServletRequest request) {
         return (TokenDto)request.getAttribute(ATTRIBUTE_USER_PROFILE);
     }
 

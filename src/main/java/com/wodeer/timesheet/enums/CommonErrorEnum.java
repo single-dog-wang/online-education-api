@@ -13,11 +13,16 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum CommonErrorEnum implements ErrorInfo {
     // 系统公用
-    UNKNOWN_ERROR(110000, "未知错误"),
+    UNKNOWN_ERROR(100000, "未知错误"),
     AUTH_FAILED(110403, "身份认证失败，%s。"),
-    INVALID_PARAMETER(110001, "参数错误：%s。"),
-    DATA_ACCESS_DENIED(110002, "访问数据权限错误：%s。"),
-    SYS_DATA_LOST(110003, "系统数据丢失：%s。"),
+    FORM_VIOLATION(110001, "表单参数错误：%s。"),
+    PATH_PARAM_LACK(110002, "缺少路径参数：%s。"),
+    QUERY_PARAM_LACK(110003, "缺少请求参数：%s。"),
+    PARAM_VIOLATION(110004, "请求参数错误：%s。"),
+
+    INVALID_PARAMETER(110006, "请求参数有误：%s。"),
+    DATA_ACCESS_DENIED(110007, "访问数据权限错误：%s。"),
+    SYS_DATA_LOST(110008, "系统数据丢失：%s。"),
 
     // 数据库相关
     DUPLICATE_DATA(110101, "有重复数据冲突。"),

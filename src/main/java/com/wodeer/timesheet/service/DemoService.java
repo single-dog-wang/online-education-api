@@ -1,6 +1,7 @@
 package com.wodeer.timesheet.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -30,5 +31,12 @@ public class DemoService extends ServiceImpl<DemoMapper, Demo> {
     public IPage<Demo> queryByPage(int currentPage, int pageSize) {
         Page<Demo> page = new Page<>(currentPage, pageSize);
         return this.baseMapper.selectPage(page, null);
+    }
+
+    public void modify() {
+        LambdaUpdateWrapper<Demo> lambdaUpdate = new LambdaUpdateWrapper<>();
+        lambdaUpdate.eq(Demo::getId, 2)
+                    .like(Demo::getDemoName, "B")
+                    .set(Demo::getDemoName, "OK");
     }
 }
