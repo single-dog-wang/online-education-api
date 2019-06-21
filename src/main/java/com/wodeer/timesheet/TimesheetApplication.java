@@ -4,8 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * @author richard
  * Spring Boot 启动类
+ *
+ * @author richard
+ * @date 2019-06-20 15:49
  */
 @SpringBootApplication
 public class TimesheetApplication {

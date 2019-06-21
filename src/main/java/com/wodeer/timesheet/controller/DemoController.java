@@ -27,19 +27,32 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * Controller 写法的一个demo
+ *
  * @author richard
- * @date 2019-06-19 15:11
+ * @date 2019-06-21 15:11
  */
 @Validated
 @RestController
 @RequestMapping(value = "/demo", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class DemoController {
+    /**
+     * The Demo service.
+     */
     @Autowired
     DemoService demoService;
+
+    /**
+     * The http request.
+     */
     @Autowired
     HttpServletRequest request;
 
-    // 返回所有数据
+    /**
+     * 返回所有数据
+     *
+     * @return Demo 列表
+     */
     @GetMapping("/list")
     public ApiResult<List<DemoVo>> demoList() {
         List<Demo> allDemoList = demoService.list();
@@ -47,7 +60,13 @@ public class DemoController {
         return ApiResult.success(result);
     }
 
-    // 普通条件查询
+    /**
+     * 普通条件查询
+     *
+     * @param name  模糊查询姓名
+     * @param maxId 查询范围最大id
+     * @return the api result
+     */
     @GetMapping("/query")
     public ApiResult<List<DemoVo>> queryDemo(@Valid @RequestParam @Length(max = 20) String name,
                                              @Valid @RequestParam @Positive Integer maxId) {
@@ -56,7 +75,12 @@ public class DemoController {
         return ApiResult.success(result);
     }
 
-    // 自定义SQL查询
+    /**
+     * 自定义SQL查询
+     *
+     * @param id 查询范围最大id
+     * @return the api result
+     */
     @GetMapping("/custom-query")
     public ApiResult<List<DemoVo>> customQueryDemo(@Valid @RequestParam @Positive Integer id) {
         List<Demo> allDemoList = demoService.customerDemo(id);
@@ -64,7 +88,13 @@ public class DemoController {
         return ApiResult.success(result);
     }
 
-    // 分页查询
+    /**
+     * 分页查询
+     *
+     * @param currentPage 当前页码
+     * @param pageSize    每页记录数
+     * @return the api result
+     */
     @GetMapping("/query-by-page")
     public ApiResult<PageVo<DemoVo>> queryByPage(@Valid @RequestParam @Positive Integer currentPage,
                                                  @Valid @RequestParam @Positive Integer pageSize) {
@@ -79,7 +109,12 @@ public class DemoController {
         return ApiResult.success(result);
     }
 
-    // 新增
+    /**
+     * 新增
+     *
+     * @param fo 客户端提交的表单数据
+     * @return the api result
+     */
     @PostMapping("")
     public ApiResult createDemo(@Valid @RequestBody DemoCreateFo fo) {
         // 调用 service 方法
@@ -91,7 +126,13 @@ public class DemoController {
         return ApiResult.success();
     }
 
-    // 更新(按照id更新)
+    /**
+     * 更新(按照id更新)
+     *
+     * @param id 需要更新的记录id
+     * @param fo 客户端提交的表单数据
+     * @return the api result
+     */
     @PutMapping("/{id}")
     public ApiResult createDemo(@Valid @PathVariable @Positive Integer id,
                                 @Valid @RequestBody DemoUpdateFo fo) {
@@ -99,13 +140,18 @@ public class DemoController {
         Demo demo = new Demo();
         demo.setId(id);
         demo.setDemoName(fo.getDemoName());
+        demo.setTheDate(fo.getTheDate());
         demoService.updateById(demo);
 
         // 返回
         return ApiResult.success();
     }
 
-    // 更新(指定条件)
+    /**
+     * 更新(指定条件)，通过条件构造器确定更新范围
+     *
+     * @return the api result
+     */
     @PutMapping("/modify")
     public ApiResult createDemo() {
         // 调用 service 方法
@@ -115,7 +161,12 @@ public class DemoController {
         return ApiResult.success();
     }
 
-    // 日期格式参数验证
+    /**
+     * 日期格式参数验证
+     *
+     * @param demoDate 日期格式的字符串参数
+     * @return the api result
+     */
     @GetMapping("/date-param/{demoDate}")
     public ApiResult<Long> dateParam(@PathVariable String demoDate) {
         Date theDate;

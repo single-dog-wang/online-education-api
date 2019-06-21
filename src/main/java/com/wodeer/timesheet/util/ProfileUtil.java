@@ -5,8 +5,10 @@ import com.wodeer.timesheet.dto.TokenDto;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * 从 Http Context 获取会话相关信息的工具类
+ *
  * @author richard
- * @date 2019-03-03 22:29
+ * @date 2019-06-21 22:29
  */
 public final class ProfileUtil {
     private static final String ATTRIBUTE_USER_PROFILE = "USER_PROFILE";

@@ -3,9 +3,10 @@ package com.wodeer.timesheet.exception;
 import com.wodeer.timesheet.enums.CommonErrorEnum;
 
 /**
- * @author richard
- * @date 2019-03-07 16:10
  * 身份认证错误
+ *
+ * @author richard
+ * @date 2019-06-21 16:10
  */
 public class AuthException extends ApiException {
     private AuthException(Integer code, String message) {

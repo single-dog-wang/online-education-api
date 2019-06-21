@@ -6,8 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * MyBatis-Plus 的配置项
+ *
  * @author richard
- * @date 2019-06-20 14:48
+ * @date 2019-06-21 14:48
  */
 @Configuration
 @MapperScan("com.wodeer.timesheet.dao")

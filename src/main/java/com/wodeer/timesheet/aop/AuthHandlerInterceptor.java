@@ -2,21 +2,21 @@ package com.wodeer.timesheet.aop;
 
 import com.alibaba.fastjson.JSON;
 import com.wodeer.timesheet.dto.TokenDto;
-import com.wodeer.timesheet.util.ProfileUtil;
 import com.wodeer.timesheet.enums.CacheEnum;
 import com.wodeer.timesheet.exception.AuthException;
+import com.wodeer.timesheet.util.ProfileUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author richard
- * @date 2019-03-03 20:04
+ * @date 2019-06-21 20:04
  * 身份认证拦截器
  */
 @Component
@@ -26,7 +26,7 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
     private static final String ANONYMOUS_ACCESS_PREFIX = "/";
     private static final String DOWNLOAD_URL_PREFIX= "/file/download/";
 
-    @Resource
+    @Autowired
     private StringRedisTemplate redis;
 
     @Override

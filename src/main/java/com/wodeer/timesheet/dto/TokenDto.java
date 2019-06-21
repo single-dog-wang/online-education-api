@@ -4,9 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * @author richard
- * @date 2019-03-03 18:25
  * 服务端用户身份凭证存储的数据结构
+ *
+ * @author richard
+ * @date 2019-06-21 18:25
  */
 @Data
 @AllArgsConstructor

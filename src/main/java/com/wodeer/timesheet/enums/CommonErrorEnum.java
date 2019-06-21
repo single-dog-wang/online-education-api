@@ -5,9 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
+ * 系统通用错误枚举
+ *
  * @author richard
- * @date 2019-02-27 23:48
- * 公共业务错误
+ * @date 2019-06-21 23:48
  */
 @Getter
 @AllArgsConstructor
@@ -40,6 +41,12 @@ public enum CommonErrorEnum implements ErrorInfo {
     FILE_UPLOAD_IO(110301, "文件上传失败。"),
     ;
 
+    /**
+     * 错误编码
+     */
     private Integer code;
+    /**
+     * 错误消息
+     */
     private String msg;
 }

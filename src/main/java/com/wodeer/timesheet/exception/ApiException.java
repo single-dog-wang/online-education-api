@@ -5,9 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @author richard
- * @date 2019-02-28 13:16
  * API 运行时抛出的错误
+ *
+ * @author richard
+ * @date 2019-06-21 13:16
  */
 @Getter
 @Setter
@@ -23,8 +24,8 @@ public class ApiException extends RuntimeException {
         this(errorInfo.getCode(), errorInfo.getMsg());
     }
 
-    public ApiException(ErrorInfo errorInfo, Throwable innerException) {
-        this(errorInfo.getCode(), errorInfo.getMsg());
-        this.initCause(innerException);
-    }
+//    private ApiException(ErrorInfo errorInfo, Throwable innerException) {
+//        this(errorInfo.getCode(), errorInfo.getMsg());
+//        this.initCause(innerException);
+//    }
 }

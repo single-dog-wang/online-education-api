@@ -3,9 +3,10 @@ package com.wodeer.timesheet.exception;
 import com.wodeer.timesheet.enums.CommonErrorEnum;
 
 /**
- * @author richard
- * @date 2019-03-01 10:03
  * 参数验证异常，在检查参数方法中抛出
+ *
+ * @author richard
+ * @date 2019-06-21 10:03
  */
 public class InvalidApiParameterException extends ApiException {
     private InvalidApiParameterException(Integer code, String message) {
