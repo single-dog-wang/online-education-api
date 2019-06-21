@@ -6,7 +6,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * 这里是把 interceptor 注册入容器
+ * 这里是把 拦截器 注册入容器
  *
  * @author richard
  * @date 2019-06-21 20:56

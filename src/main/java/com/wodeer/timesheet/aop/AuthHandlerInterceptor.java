@@ -15,15 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * 身份认证拦截器
+ *
  * @author richard
  * @date 2019-06-21 20:04
- * 身份认证拦截器
  */
 @Component
 public class AuthHandlerInterceptor implements HandlerInterceptor {
     private static final String TOKEN_PARAM_KEY = "x-access-token";
-//    private static final String ANONYMOUS_ACCESS_PREFIX = "/auth";
-    private static final String ANONYMOUS_ACCESS_PREFIX = "/";
+    private static final String ANONYMOUS_ACCESS_PREFIX = "/auth";
     private static final String DOWNLOAD_URL_PREFIX= "/file/download/";
 
     @Autowired
