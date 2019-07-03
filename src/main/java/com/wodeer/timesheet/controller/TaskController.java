@@ -2,17 +2,18 @@ package com.wodeer.timesheet.controller;
 
 import com.wodeer.timesheet.entity.Task;
 import com.wodeer.timesheet.entity.TaskDate;
+import com.wodeer.timesheet.formobject.TaskSearchFo;
 import com.wodeer.timesheet.model.ApiResult;
 import com.wodeer.timesheet.service.TaskService;
 import com.wodeer.timesheet.viewobject.PageVo;
 import com.wodeer.timesheet.viewobject.TaskVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -21,6 +22,7 @@ import java.util.List;
  * @author wuliming
  * @date 2019-07-01 10:32
  */
+@Validated
 @RestController
 @RequestMapping(value = "/task", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class TaskController {
@@ -31,29 +33,25 @@ public class TaskController {
     @Autowired
     TaskService taskService;
 
+    @GetMapping("/list")
+    public ApiResult<PageVo<TaskVo<TaskDate>>> taskList(Integer currentPage, Integer pageSize) {
+        // 先从token中获取用户id
+        Integer userId = 8;
+        return ApiResult.success(taskService.taskList(userId, currentPage, pageSize));
+    }
+
     /**
      * 条件查询
      * 用户id不能为空，如果未选择默认为当前登录者用户id
      * 工作内容关键字可以为空，为空时查看以用户id和时间为条件的数据
-     * 不为空时加上关键字查询条件
+     *                       不为空时加上关键字查询条件
      *
-     * @param userId      用户id
-     * @param keyContent  工作内容关键字
-     * @param startTime   开始时间
-     * @param endTime     结束时间
-     * @param currentPage 当前页
-     * @param pageSize    总页数
+     * @param taskSearchFo 日志查询参数
      * @return the api result
      */
     @PostMapping("/search")
-    public ApiResult<PageVo<TaskVo<TaskDate>>> search(@Valid @RequestParam Integer userId,
-                                                      @Valid @RequestParam String keyContent,
-                                                      @Valid @RequestParam String startTime,
-                                                      @Valid @RequestParam String endTime,
-                                                      @Valid @RequestParam Integer currentPage,
-                                                      @Valid @RequestParam Integer pageSize) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        return ApiResult.success(taskService.searchByPage(userId, keyContent, format.parse(startTime), format.parse(endTime), currentPage, pageSize));
+    public ApiResult<PageVo<TaskVo<TaskDate>>> search(@Valid @RequestBody TaskSearchFo taskSearchFo) throws ParseException {
+        return ApiResult.success(taskService.searchByPage(taskSearchFo));
     }
 
     /**

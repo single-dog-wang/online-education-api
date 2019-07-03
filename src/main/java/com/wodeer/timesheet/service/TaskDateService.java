@@ -23,4 +23,10 @@ public class TaskDateService extends ServiceImpl<TaskDateDao, TaskDate> {
                 .le(TaskDate::getWorkDate, endTime);
         return this.baseMapper.selectList(lambdaQuery);
     }
+
+    public List<TaskDate> taskDateList(Integer taskId) {
+        LambdaQueryWrapper<TaskDate> lambdaQuery = new LambdaQueryWrapper<>();
+        lambdaQuery.eq(TaskDate::getTaskId, taskId);
+        return this.baseMapper.selectList(lambdaQuery);
+    }
 }
