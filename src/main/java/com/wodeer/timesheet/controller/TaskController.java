@@ -5,6 +5,7 @@ import com.wodeer.timesheet.entity.TaskDate;
 import com.wodeer.timesheet.enums.CommonErrorEnum;
 import com.wodeer.timesheet.formobject.TaskCreateFo;
 import com.wodeer.timesheet.formobject.TaskSearchFo;
+import com.wodeer.timesheet.formobject.TaskUpdateFo;
 import com.wodeer.timesheet.model.ApiResult;
 import com.wodeer.timesheet.service.TaskService;
 import com.wodeer.timesheet.viewobject.PageVo;
@@ -65,10 +66,22 @@ public class TaskController {
     }
 
     /**
+     * 快速添加日志
+     *
+     * @param id 选择的日志内容id
+     * @return the adi result
+     */
+    @GetMapping("/quick-add")
+    public ApiResult quickAdd(Integer id) {
+        taskService.quickAdd(id);
+        return ApiResult.success();
+    }
+
+    /**
      * 条件查询
      * 用户id不能为空，如果未选择默认为当前登录者用户id
      * 工作内容关键字可以为空，为空时查看以用户id和时间为条件的数据
-     *                       不为空时加上关键字查询条件
+     * 不为空时加上关键字查询条件
      *
      * @param taskSearchFo 日志查询参数
      * @return the api result
@@ -89,6 +102,12 @@ public class TaskController {
     public ApiResult<List<Task>> associationSearch(Integer userId,
                                                    String keyContent) {
         return ApiResult.success(taskService.associationSearch(userId, keyContent));
+    }
+
+    @PutMapping("")
+    public ApiResult modify(@Valid @RequestBody TaskUpdateFo taskUpdateFo) {
+        taskService.modify(taskUpdateFo);
+        return ApiResult.success();
     }
 
     /**

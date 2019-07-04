@@ -12,6 +12,7 @@ import com.wodeer.timesheet.entity.TaskDate;
 import com.wodeer.timesheet.exception.InvalidApiParameterException;
 import com.wodeer.timesheet.formobject.TaskCreateFo;
 import com.wodeer.timesheet.formobject.TaskSearchFo;
+import com.wodeer.timesheet.formobject.TaskUpdateFo;
 import com.wodeer.timesheet.viewobject.PageVo;
 import com.wodeer.timesheet.viewobject.TaskVo;
 import org.apache.commons.lang3.time.DateUtils;
@@ -36,7 +37,7 @@ public class TaskService extends ServiceImpl<TaskDao, Task> {
     public PageVo<TaskVo<TaskDate>> searchByPage(TaskSearchFo taskSearchFo) {
 
         LambdaQueryWrapper<Task> lambdaQuery = Wrappers.lambdaQuery(new Task());
-        //判断输入的日志内容或者时间是否为空
+        //判断输入的日志内容是否为空
         if ("".equals(taskSearchFo.getKeyContent())) {
             //空表示通过用户id获取所有日志内容
             lambdaQuery.eq(Task::getUserId, taskSearchFo.getUserId());
@@ -50,6 +51,7 @@ public class TaskService extends ServiceImpl<TaskDao, Task> {
 
         result.setTotal(pageObj.getTotal());
         result.setPages(pageObj.getPages());
+        //判断时间是否为空
         if ("".equals(taskSearchFo.getStartTime()) || "".equals(taskSearchFo.getEndTime())) {
             result.setRecords(setData(pageObj.getRecords(), null, null));
         } else {
@@ -138,5 +140,31 @@ public class TaskService extends ServiceImpl<TaskDao, Task> {
         taskDate.setCreateTime(new Date());
         taskDate.setUpdateTime(new Date());
         return taskDateService.save(taskDate);
+    }
+
+    public void quickAdd(Integer id) {
+        TaskDate taskDate = new TaskDate();
+        taskDate.setTaskId(id);
+        taskDate.setWorkDate(new Date());
+        taskDate.setCreateTime(new Date());
+        taskDate.setUpdateTime(new Date());
+        taskDateService.save(taskDate);
+    }
+
+    public void modify(TaskUpdateFo taskUpdateFo) {
+        TaskDate taskDate = new TaskDate();
+        taskDate.setId(taskUpdateFo.getTaskDateId());
+        try {
+            taskDate.setWorkDate(DateUtils.parseDate(taskUpdateFo.getWorkDate(), SystemConstant.DATETIME_PATTERN));
+        } catch (ParseException e) {
+            throw new InvalidApiParameterException("日期格式错误");
+        }
+        taskDate.setUpdateTime(new Date());
+        taskDateService.updateById(taskDate);
+        Task task = new Task();
+        task.setId(taskUpdateFo.getTaskId());
+        task.setWorkContent(taskUpdateFo.getContent());
+        task.setUpdateTime(new Date());
+        this.baseMapper.updateById(task);
     }
 }
