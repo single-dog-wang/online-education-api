@@ -142,16 +142,16 @@ public class TaskService extends ServiceImpl<TaskDao, Task> {
         return taskDateService.save(taskDate);
     }
 
-    public void quickAdd(Integer id) {
+    public boolean quickAdd(Integer id) {
         TaskDate taskDate = new TaskDate();
         taskDate.setTaskId(id);
         taskDate.setWorkDate(new Date());
         taskDate.setCreateTime(new Date());
         taskDate.setUpdateTime(new Date());
-        taskDateService.save(taskDate);
+        return taskDateService.save(taskDate);
     }
 
-    public void modify(TaskUpdateFo taskUpdateFo) {
+    public Integer modify(TaskUpdateFo taskUpdateFo) {
         TaskDate taskDate = new TaskDate();
         taskDate.setId(taskUpdateFo.getTaskDateId());
         try {
@@ -165,6 +165,6 @@ public class TaskService extends ServiceImpl<TaskDao, Task> {
         task.setId(taskUpdateFo.getTaskId());
         task.setWorkContent(taskUpdateFo.getContent());
         task.setUpdateTime(new Date());
-        this.baseMapper.updateById(task);
+        return this.baseMapper.updateById(task);
     }
 }

@@ -73,8 +73,11 @@ public class TaskController {
      */
     @GetMapping("/quick-add")
     public ApiResult quickAdd(Integer id) {
-        taskService.quickAdd(id);
-        return ApiResult.success();
+        if (taskService.quickAdd(id)) {
+            return ApiResult.success();
+        } else {
+            return ApiResult.fail(CommonErrorEnum.SAVE_FAILURE);
+        }
     }
 
     /**
@@ -106,8 +109,11 @@ public class TaskController {
 
     @PutMapping("")
     public ApiResult modify(@Valid @RequestBody TaskUpdateFo taskUpdateFo) {
-        taskService.modify(taskUpdateFo);
-        return ApiResult.success();
+        if(taskService.modify(taskUpdateFo) > 0){
+            return ApiResult.success();
+        }else {
+            return ApiResult.fail(CommonErrorEnum.UPDATE_NOT_FOUND);
+        }
     }
 
     /**
