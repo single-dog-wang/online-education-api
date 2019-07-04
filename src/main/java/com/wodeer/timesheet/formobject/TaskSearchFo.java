@@ -2,7 +2,6 @@ package com.wodeer.timesheet.formobject;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
 
 /**
@@ -19,18 +18,16 @@ public class TaskSearchFo {
     @Positive
     private Integer userId;
     /**
-     * 日志内容
+     *  关键日志内容
      */
     private String keyContent;
     /**
      * 开始时间
      */
-    @NotEmpty
     private String startTime;
     /**
      * 结束时间
      */
-    @NotEmpty
     private String endTime;
     /**
      * 当前页

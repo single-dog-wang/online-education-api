@@ -28,7 +28,8 @@ public enum CommonErrorEnum implements ErrorInfo {
     // 数据库相关
     DUPLICATE_DATA(110101, "有重复数据冲突。"),
 //    UPDATE_NOT_FOUND(11010?, "要更新的数据未找到"),
-//    DELETE_NOT_FOUND(11010?, "要删除的数据未找到"),
+DELETE_NOT_FOUND(110102, "要删除的数据未找到"),
+    SAVE_FAILURE(110103, "数据添加失败"),
 
     // 短信相关
     SMS_CODE_LIMIT(110201, "请不要重复操作，%d秒内只能获取一次验证码。"),

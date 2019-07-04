@@ -2,6 +2,8 @@ package com.wodeer.timesheet.controller;
 
 import com.wodeer.timesheet.entity.Task;
 import com.wodeer.timesheet.entity.TaskDate;
+import com.wodeer.timesheet.enums.CommonErrorEnum;
+import com.wodeer.timesheet.formobject.TaskCreateFo;
 import com.wodeer.timesheet.formobject.TaskSearchFo;
 import com.wodeer.timesheet.model.ApiResult;
 import com.wodeer.timesheet.service.TaskService;
@@ -13,7 +15,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -33,11 +34,34 @@ public class TaskController {
     @Autowired
     TaskService taskService;
 
+    /**
+     * 分页查询列表
+     *
+     * @param currentPage 当前页
+     * @param pageSize    每页多少条
+     * @return the api result
+     */
     @GetMapping("/list")
     public ApiResult<PageVo<TaskVo<TaskDate>>> taskList(Integer currentPage, Integer pageSize) {
-        // 先从token中获取用户id
+        // 先获取用户id
         Integer userId = 8;
         return ApiResult.success(taskService.taskList(userId, currentPage, pageSize));
+    }
+
+    /**
+     * 添加日志
+     *
+     * @param taskCreateFo 添加日志的内容
+     * @return the api result
+     */
+    @PostMapping("/add")
+    public ApiResult add(@Valid @RequestBody TaskCreateFo taskCreateFo) {
+        Integer userId = 8;
+        if (taskService.add(userId, taskCreateFo)) {
+            return ApiResult.success();
+        } else {
+            return ApiResult.fail(CommonErrorEnum.SAVE_FAILURE);
+        }
     }
 
     /**
@@ -50,7 +74,7 @@ public class TaskController {
      * @return the api result
      */
     @PostMapping("/search")
-    public ApiResult<PageVo<TaskVo<TaskDate>>> search(@Valid @RequestBody TaskSearchFo taskSearchFo) throws ParseException {
+    public ApiResult<PageVo<TaskVo<TaskDate>>> search(@Valid @RequestBody TaskSearchFo taskSearchFo) {
         return ApiResult.success(taskService.searchByPage(taskSearchFo));
     }
 
@@ -65,5 +89,20 @@ public class TaskController {
     public ApiResult<List<Task>> associationSearch(Integer userId,
                                                    String keyContent) {
         return ApiResult.success(taskService.associationSearch(userId, keyContent));
+    }
+
+    /**
+     * 根据日志内容id删除
+     *
+     * @param id 日志内容id
+     * @return the api result
+     */
+    @DeleteMapping("")
+    public ApiResult delete(Integer id) {
+        if (taskService.deleteTask(id) > 0) {
+            return ApiResult.success();
+        } else {
+            return ApiResult.fail(CommonErrorEnum.DELETE_NOT_FOUND);
+        }
     }
 }

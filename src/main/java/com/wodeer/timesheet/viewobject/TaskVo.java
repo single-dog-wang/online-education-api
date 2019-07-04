@@ -12,6 +12,7 @@ import java.util.List;
  */
 @Data
 public class TaskVo<T> {
+    private Integer id;
     private Integer userId;
     private String workContent;
     /**
@@ -24,6 +25,7 @@ public class TaskVo<T> {
     private List<T> dateList;
 
     public TaskVo(Task task) {
+        this.id = task.getId();
         this.userId = task.getUserId();
         this.workContent = task.getWorkContent();
     }
