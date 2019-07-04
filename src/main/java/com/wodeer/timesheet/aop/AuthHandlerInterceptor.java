@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class AuthHandlerInterceptor implements HandlerInterceptor {
     private static final String TOKEN_PARAM_KEY = "x-access-token";
-    private static final String ANONYMOUS_ACCESS_PREFIX = "/";
+    private static final String ANONYMOUS_ACCESS_PREFIX = "/auth";
     private static final String DOWNLOAD_URL_PREFIX= "/file/download/";
 
     @Autowired
