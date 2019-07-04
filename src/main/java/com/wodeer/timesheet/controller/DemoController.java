@@ -183,4 +183,10 @@ public class DemoController {
         }
         return ApiResult.success(result);
     }
+
+
+    @PostMapping("/user")
+    public IPage<Demo> findAll() {
+        return demoService.findAll();
+    }
 }
