@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wodeer.timesheet.dao.LoginDao;
 import com.wodeer.timesheet.entity.User;
+import com.wodeer.timesheet.model.ApiResult;
 import com.wodeer.timesheet.util.MD5Util;
 import com.wodeer.timesheet.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class LoginService extends ServiceImpl<LoginDao, User> {
     /**
      * 根据username和password来查询userType
      */
-    public User findUserByUserNameAndPassword(String username, String password) {
+    public ApiResult<User> findUserByUserNameAndPassword(String username, String password) {
         User user = this.baseMapper.selectOne(
                 new LambdaQueryWrapper<User>()
                         .eq(User::getUsername, username)
@@ -42,6 +43,7 @@ public class LoginService extends ServiceImpl<LoginDao, User> {
             cookie.setMaxAge(3600);
             cookie.setPath("/");
             response.addCookie(cookie);
-             return user;
+
+            return ApiResult.success(user);
     }
 }
