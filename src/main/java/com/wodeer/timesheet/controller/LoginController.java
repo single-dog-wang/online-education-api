@@ -20,7 +20,7 @@ public class LoginController{
      * 根据username和password，查询用户的userType
      */
     @PostMapping("/findUserByUP")
-    public User findUserByUP(String username, String password) {
+    public User findUserByUserNameAndPassword(String username, String password) {
         return loginService.findUserByUserNameAndPassword(username, password);
     }
 }

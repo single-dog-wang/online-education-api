@@ -1,10 +1,6 @@
 package com.wodeer.timesheet.formobject;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotEmpty;
-
 /**
  * 创建Demo记录的表单对象
  *

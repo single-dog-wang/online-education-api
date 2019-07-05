@@ -3,6 +3,9 @@ package com.wodeer.timesheet.util;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+/**
+ * @author guoya
+ */
 public class MD5Util {
 
 	/**
@@ -11,7 +14,7 @@ public class MD5Util {
 	 * 参数：要加密的字符串
 	 * 返回值
 	 */
-	public static String md5(String str){
+	private static String md5(String str){
 		return DigestUtils.md5Hex(str);
 	}
 
@@ -21,7 +24,7 @@ public class MD5Util {
 	 * 参数：要加入的字符串,直接定义
 	 * 返回值：返回第一次加盐的密码
 	 */
-	public static String firstEncryption(String str){
+	private static String firstEncryption(String str){
 		String salt = "123098";
 		return md5(str + salt);
 	}
@@ -32,7 +35,7 @@ public class MD5Util {
 	 * 参数：第一次返回的字符串,第二次手动传入的字符串
 	 * 返回值：返回第二次加盐的密码
 	 */
-	public static String secondEncryption(String str, String dbSalt){
+	private static String secondEncryption(String str, String dbSalt){
 		return md5(str + dbSalt);
 	}
 

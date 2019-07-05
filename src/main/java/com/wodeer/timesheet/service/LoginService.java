@@ -3,8 +3,8 @@ package com.wodeer.timesheet.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wodeer.timesheet.dao.LoginDao;
-import com.wodeer.timesheet.dao.UserDao;
 import com.wodeer.timesheet.entity.User;
+import com.wodeer.timesheet.util.MD5Util;
 import com.wodeer.timesheet.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 public class LoginService extends ServiceImpl<LoginDao, User> {
     private static final String REDIS_KEY = "com.wodeer.timesheet.redis";
+    private  static final String SALT = "098123";
 
     @Autowired
     HttpServletResponse response;
@@ -33,15 +34,14 @@ public class LoginService extends ServiceImpl<LoginDao, User> {
         User user = this.baseMapper.selectOne(
                 new LambdaQueryWrapper<User>()
                         .eq(User::getUsername, username)
-                        .eq(User::getPassword, password)
+                        .eq(User::getPassword, MD5Util.encryption(password, SALT))
         );
-        String token = UUIDUtil.getUUID();
-        jsonRedisTemplate.opsForHash().put(REDIS_KEY, token, user);
-        Cookie cookie = new Cookie("token", token);
-        cookie.setMaxAge(3600);
-        cookie.setPath("/");
-        response.addCookie(cookie);
-
-        return user;
+            String token = UUIDUtil.getUUID();
+            jsonRedisTemplate.opsForHash().put(REDIS_KEY, token, user);
+            Cookie cookie = new Cookie("token", token);
+            cookie.setMaxAge(3600);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+             return user;
     }
 }

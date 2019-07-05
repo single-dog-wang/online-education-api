@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wodeer.timesheet.entity.User;
 import com.wodeer.timesheet.formobject.UserCreateFo;
 import com.wodeer.timesheet.formobject.UserUpdateFo;
+import com.wodeer.timesheet.model.ApiResult;
 import com.wodeer.timesheet.service.UserService;
 import com.wodeer.timesheet.util.MD5Util;
 import com.wodeer.timesheet.viewobject.PageVo;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 public class UserController {
     @Autowired
     UserService userService;
-    /**
+    /*
      * IPage接口中有三个方法：
      * getTotal()   得到总条数
      * getPages()  总页数
@@ -38,14 +39,14 @@ public class UserController {
      * 返回值：UserVo的列表
      */
     @GetMapping("/list")
-    public List<UserVo> queryByPage(Integer currentPage, Integer pageSize){
+    public ApiResult<List<UserVo>> queryByPage(Integer currentPage, Integer pageSize){
         IPage<User> pageObj = userService.queryByPage(currentPage, pageSize);
         //抽离分页查询得到的三个结果
         PageVo<UserVo> result = new PageVo<>();
         result.setTotal(pageObj.getTotal());
         result.setPages(pageObj.getPages());
         result.setRecords(pageObj.getRecords().stream().map(UserVo::new).collect(Collectors.toList()));
-        return result.getRecords();
+        return ApiResult.success(result.getRecords());
     }
 
     /**
@@ -54,11 +55,11 @@ public class UserController {
      * 返回值：UserVo  用户对象
      */
     @GetMapping("/search")
-    public UserVo queryByUsername(String username){
+    public ApiResult<UserVo> queryByUsername(String username){
         UserVo userVo = new UserVo();
         User user = userService.queryByUsername(username);
         BeanUtils.copyProperties(user, userVo);
-        return userVo;
+        return  ApiResult.success(userVo);
     }
 
     /**
@@ -71,7 +72,7 @@ public class UserController {
      * 返回值：无
      */
     @PostMapping("/add")
-     public void createUser(@RequestBody UserCreateFo fo){
+     public ApiResult createUser(@RequestBody UserCreateFo fo){
          User user = new User();
          BeanUtils.copyProperties(fo, user);
          user.setPassword(MD5Util.encryption(fo.getPassword(), "098123"));
@@ -79,6 +80,7 @@ public class UserController {
          user.setCreateTime(new Date());
          user.setUpdateTime(new Date());
          userService.save(user);
+        return ApiResult.success();
       }
 
 
@@ -91,10 +93,11 @@ public class UserController {
      *  返回值：无
      */
     @PutMapping("/{id}")
-    public void updateUser(@RequestBody UserUpdateFo fo, @PathVariable Integer id){
+    public ApiResult updateUser(@RequestBody UserUpdateFo fo, @PathVariable Integer id){
         User user = new User();
         BeanUtils.copyProperties(fo, user);
         user.setId(id);
         userService.updateById(user);
+        return ApiResult.success();
     }
 }

@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class DemoService extends ServiceImpl<DemoDao, Demo> {
     public IPage<Demo> findAll() {
-        return this.baseMapper.selectPage(new Page<Demo>(0, 5), null);
+        return this.baseMapper.selectPage(new Page<>(0, 5), null);
     }
 
     public List<Demo> queryDemo(String name, Integer maxId) {
