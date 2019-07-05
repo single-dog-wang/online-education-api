@@ -5,11 +5,11 @@ import com.wodeer.timesheet.entity.User;
 import com.wodeer.timesheet.formobject.UserCreateFo;
 import com.wodeer.timesheet.formobject.UserUpdateFo;
 import com.wodeer.timesheet.service.UserService;
+import com.wodeer.timesheet.util.MD5Util;
 import com.wodeer.timesheet.viewobject.PageVo;
 import com.wodeer.timesheet.viewobject.UserVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 /**
  * @author guoya
  */
-@Transactional
 @RestController
 @RequestMapping("/admin/employee")
 public class UserController {
@@ -76,10 +75,12 @@ public class UserController {
      public void createUser(@RequestBody UserCreateFo fo){
          User user = new User();
          BeanUtils.copyProperties(fo, user);
+         user.setPassword(MD5Util.encryption(fo.getPassword(), "098123"));
+         user.setIsActive(1);
          user.setCreateTime(new Date());
          user.setUpdateTime(new Date());
          userService.save(user);
-     }
+      }
 
 
     /**
@@ -95,8 +96,6 @@ public class UserController {
         User user = new User();
         BeanUtils.copyProperties(fo, user);
         user.setId(id);
-        user.setCreateTime(new Date());
-        user.setUpdateTime(new Date());
         userService.updateById(user);
     }
 }

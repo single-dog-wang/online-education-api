@@ -28,8 +28,8 @@ public class UserCreateFo {
      * 用户类型
      */
     private Integer userType;
-    /**
-     * 是否启用
-     */
-    private Integer isActive;
+//    /**
+//     * 是否启用
+//     */
+//    private Integer isActive;
 }
