@@ -68,12 +68,12 @@ public class TaskController {
     /**
      * 快速添加日志
      *
-     * @param id 选择的日志内容id
+     * @param taskUpdateFo 接受工作内容id和时间
      * @return the adi result
      */
-    @GetMapping("/quick-add")
-    public ApiResult quickAdd(Integer id) {
-        if (taskService.quickAdd(id)) {
+    @PostMapping("/quick-add")
+    public ApiResult quickAdd(@Valid @RequestBody TaskUpdateFo taskUpdateFo) {
+        if (taskService.quickAdd(taskUpdateFo.getTaskId(), taskUpdateFo.getWorkDate())) {
             return ApiResult.success();
         } else {
             return ApiResult.fail(CommonErrorEnum.SAVE_FAILURE);

@@ -3,6 +3,7 @@ package com.wodeer.timesheet.formobject;
 import lombok.Data;
 
 import javax.validation.constraints.Positive;
+import java.util.Date;
 
 /**
  * 日志查询参数
@@ -24,11 +25,11 @@ public class TaskSearchFo {
     /**
      * 开始时间
      */
-    private String startTime;
+    private Date startTime;
     /**
      * 结束时间
      */
-    private String endTime;
+    private Date endTime;
     /**
      * 当前页
      */

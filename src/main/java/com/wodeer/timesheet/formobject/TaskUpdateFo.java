@@ -2,6 +2,9 @@ package com.wodeer.timesheet.formobject;
 
 import lombok.Data;
 
+import javax.validation.constraints.Positive;
+import java.util.Date;
+
 /**
  * Task更新用的表单数据
  *
@@ -13,6 +16,7 @@ public class TaskUpdateFo {
     /**
      * 工作内容id
      */
+    @Positive
     private Integer taskId;
     /**
      * 工作时间id
@@ -25,7 +29,7 @@ public class TaskUpdateFo {
     /**
      * 工作时间
      */
-    private String workDate;
+    private Date workDate;
 
     /**
      * 工作类型

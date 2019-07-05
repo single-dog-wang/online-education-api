@@ -5,21 +5,17 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.wodeer.timesheet.constant.SystemConstant;
 import com.wodeer.timesheet.dao.TaskDao;
 import com.wodeer.timesheet.entity.Task;
 import com.wodeer.timesheet.entity.TaskDate;
-import com.wodeer.timesheet.exception.InvalidApiParameterException;
 import com.wodeer.timesheet.formobject.TaskCreateFo;
 import com.wodeer.timesheet.formobject.TaskSearchFo;
 import com.wodeer.timesheet.formobject.TaskUpdateFo;
 import com.wodeer.timesheet.viewobject.PageVo;
 import com.wodeer.timesheet.viewobject.TaskVo;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,16 +48,10 @@ public class TaskService extends ServiceImpl<TaskDao, Task> {
         result.setTotal(pageObj.getTotal());
         result.setPages(pageObj.getPages());
         //判断时间是否为空
-        if ("".equals(taskSearchFo.getStartTime()) || "".equals(taskSearchFo.getEndTime())) {
+        if (null == (taskSearchFo.getStartTime()) || null == (taskSearchFo.getEndTime())) {
             result.setRecords(setData(pageObj.getRecords(), null, null));
         } else {
-            try {
-                result.setRecords(setData(pageObj.getRecords(),
-                        DateUtils.parseDate(taskSearchFo.getStartTime(), SystemConstant.DATETIME_PATTERN),
-                        DateUtils.parseDate(taskSearchFo.getEndTime(), SystemConstant.DATETIME_PATTERN)));
-            } catch (ParseException e) {
-                throw new InvalidApiParameterException("日期格式错误");
-            }
+            result.setRecords(setData(pageObj.getRecords(), taskSearchFo.getStartTime(), taskSearchFo.getEndTime()));
         }
         return result;
     }
@@ -83,13 +73,15 @@ public class TaskService extends ServiceImpl<TaskDao, Task> {
                 //根据taskId和时间条件获取对应的日志列表
                 dateList = taskDateService.taskDateList(task.getId(), startTime, endTime);
             } else {
-                //获取当前用户的所有日志列表
+                //获取当前内容所有时间
                 dateList = taskDateService.taskDateList(task.getId());
             }
-            TaskVo<TaskDate> taskVo = new TaskVo<>(task);
-            taskVo.setDateList(dateList);
-            taskVo.setDateCount(dateList.size());
-            result.add(taskVo);
+            if (dateList.size() > 0) {
+                TaskVo<TaskDate> taskVo = new TaskVo<>(task);
+                taskVo.setDateList(dateList);
+                taskVo.setDateCount(dateList.size());
+                result.add(taskVo);
+            }
         }
         return result;
     }
@@ -129,24 +121,30 @@ public class TaskService extends ServiceImpl<TaskDao, Task> {
         task.setCreateTime(new Date());
         task.setUpdateTime(new Date());
         this.baseMapper.insert(task);
-        //保存时间
-        TaskDate taskDate = new TaskDate();
-        taskDate.setTaskId(task.getId());
-        try {
-            taskDate.setWorkDate(DateUtils.parseDate(taskCreateFo.getWorkDate(), SystemConstant.DATETIME_PATTERN));
-        } catch (ParseException e) {
-            deleteTask(task.getId());
-            throw new InvalidApiParameterException("日期格式错误");
+        // 判断时间是否保存成功，成功返回true 失败先删掉该日志内容再返回false
+        if (saveTaskDate(task.getId(), taskCreateFo.getWorkDate())) {
+            return true;
+        } else {
+            this.baseMapper.deleteById(task.getId());
+            return false;
         }
-        taskDate.setCreateTime(new Date());
-        taskDate.setUpdateTime(new Date());
-        return taskDateService.save(taskDate);
     }
 
-    public boolean quickAdd(Integer id) {
+    public boolean quickAdd(Integer taskId, Date workDate) {
+        return saveTaskDate(taskId, workDate);
+    }
+
+    /**
+     * 保存时间
+     *
+     * @param taskId   工作内容id
+     * @param workDate 工作时间
+     * @return true or false
+     */
+    private boolean saveTaskDate(Integer taskId, Date workDate) {
         TaskDate taskDate = new TaskDate();
-        taskDate.setTaskId(id);
-        taskDate.setWorkDate(new Date());
+        taskDate.setTaskId(taskId);
+        taskDate.setWorkDate(workDate);
         taskDate.setCreateTime(new Date());
         taskDate.setUpdateTime(new Date());
         return taskDateService.save(taskDate);
@@ -155,11 +153,7 @@ public class TaskService extends ServiceImpl<TaskDao, Task> {
     public Integer modify(TaskUpdateFo taskUpdateFo) {
         TaskDate taskDate = new TaskDate();
         taskDate.setId(taskUpdateFo.getTaskDateId());
-        try {
-            taskDate.setWorkDate(DateUtils.parseDate(taskUpdateFo.getWorkDate(), SystemConstant.DATETIME_PATTERN));
-        } catch (ParseException e) {
-            throw new InvalidApiParameterException("日期格式错误");
-        }
+        taskDate.setWorkDate(taskUpdateFo.getWorkDate());
         taskDate.setUpdateTime(new Date());
         taskDateService.updateById(taskDate);
         Task task = new Task();
