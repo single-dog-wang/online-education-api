@@ -1,4 +1,4 @@
-﻿package com.wodeer.timesheet.aop;
+package com.wodeer.timesheet.aop;
 
 import com.alibaba.fastjson.JSON;
 import com.wodeer.timesheet.dto.TokenDto;

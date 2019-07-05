@@ -1,7 +1,9 @@
 package com.wodeer.timesheet.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wodeer.timesheet.dao.LoginDao;
+import com.wodeer.timesheet.dao.UserDao;
 import com.wodeer.timesheet.entity.User;
 import com.wodeer.timesheet.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  * @author guoya
  */
 @Service
-public class LoginService {
+public class LoginService extends ServiceImpl<LoginDao, User> {
     private static final String REDIS_KEY = "com.wodeer.timesheet.redis";
-    @Autowired
-    LoginDao loginDao;
 
     @Autowired
     HttpServletResponse response;
@@ -30,7 +30,7 @@ public class LoginService {
      * 根据username和password来查询userType
      */
     public User findUserByUserNameAndPassword(String username, String password) {
-        User user = loginDao.selectOne(
+        User user = this.baseMapper.selectOne(
                 new LambdaQueryWrapper<User>()
                         .eq(User::getUsername, username)
                         .eq(User::getPassword, password)

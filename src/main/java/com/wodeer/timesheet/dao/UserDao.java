@@ -6,5 +6,5 @@ import com.wodeer.timesheet.entity.User;
 /**
  * @author guoya
  */
-public interface LoginDao extends BaseMapper<User> {
+public interface UserDao extends BaseMapper<User> {
 }
