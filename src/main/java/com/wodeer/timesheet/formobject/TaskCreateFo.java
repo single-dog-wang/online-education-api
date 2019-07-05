@@ -14,13 +14,18 @@ import javax.validation.constraints.NotNull;
 @Data
 public class TaskCreateFo {
     /**
-     * 日志内容
+     * 工作内容
      */
     @NotEmpty
     private String content;
     /**
-     * 日志时间
+     * 工作时间
      */
     @NotNull
     private String workDate;
+
+    /**
+     * 工作类型
+     */
+    private String workType;
 }

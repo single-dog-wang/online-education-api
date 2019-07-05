@@ -125,6 +125,7 @@ public class TaskService extends ServiceImpl<TaskDao, Task> {
         Task task = new Task();
         task.setUserId(userId);
         task.setWorkContent(taskCreateFo.getContent());
+        task.setWorkType(taskCreateFo.getWorkType());
         task.setCreateTime(new Date());
         task.setUpdateTime(new Date());
         this.baseMapper.insert(task);
@@ -164,6 +165,7 @@ public class TaskService extends ServiceImpl<TaskDao, Task> {
         Task task = new Task();
         task.setId(taskUpdateFo.getTaskId());
         task.setWorkContent(taskUpdateFo.getContent());
+        task.setWorkType(taskUpdateFo.getWorkType());
         task.setUpdateTime(new Date());
         return this.baseMapper.updateById(task);
     }

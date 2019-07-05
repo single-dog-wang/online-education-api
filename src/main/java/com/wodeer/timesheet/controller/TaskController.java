@@ -107,6 +107,12 @@ public class TaskController {
         return ApiResult.success(taskService.associationSearch(userId, keyContent));
     }
 
+    /**
+     * 更新日志
+     *
+     * @param taskUpdateFo 更新工作日志的内容
+     * @return the api result
+     */
     @PutMapping("")
     public ApiResult modify(@Valid @RequestBody TaskUpdateFo taskUpdateFo) {
         if(taskService.modify(taskUpdateFo) > 0){

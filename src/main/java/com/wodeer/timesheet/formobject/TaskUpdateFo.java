@@ -26,4 +26,9 @@ public class TaskUpdateFo {
      * 工作时间
      */
     private String workDate;
+
+    /**
+     * 工作类型
+     */
+    private String workType;
 }
