@@ -1,7 +1,7 @@
 server:
-  port: 8085
+  port: 7141
   servlet:
-    context-path: /timesheet/api
+    context-path: /timesheet/api/v1
 
 spring:
   application:

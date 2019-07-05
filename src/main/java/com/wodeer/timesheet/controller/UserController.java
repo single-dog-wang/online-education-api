@@ -45,7 +45,6 @@ public class UserController {
         result.setTotal(pageObj.getTotal());
         result.setPages(pageObj.getPages());
         result.setRecords(pageObj.getRecords().stream().map(UserVo::new).collect(Collectors.toList()));
-
         return result.getRecords();
     }
 
