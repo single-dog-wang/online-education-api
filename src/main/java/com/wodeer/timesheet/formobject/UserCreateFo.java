@@ -2,7 +2,7 @@ package com.wodeer.timesheet.formobject;
 
 import lombok.Data;
 /**
- * 创建Demo记录的表单对象
+ * 创建新增用户的表单对象
  *
  * @author guoya
  */
@@ -24,8 +24,4 @@ public class UserCreateFo {
      * 用户类型
      */
     private Integer userType;
-//    /**
-//     * 是否启用
-//     */
-//    private Integer isActive;
 }

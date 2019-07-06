@@ -34,14 +34,13 @@ public class UserController {
 
     /**
      * 分页查询所有用户
-     * 参数一：currentPage 当前页面
-     * 参数二：pageSize    当前页面的总条数
-     * 返回值：UserVo的列表
+     * @param currentPage   当前页面
+     * @param pageSize   当前页面的总条数
+     * @return  ApiResult<List<UserVo>>
      */
     @GetMapping("/list")
     public ApiResult<List<UserVo>> queryByPage(Integer currentPage, Integer pageSize){
         IPage<User> pageObj = userService.queryByPage(currentPage, pageSize);
-        //抽离分页查询得到的三个结果
         PageVo<UserVo> result = new PageVo<>();
         result.setTotal(pageObj.getTotal());
         result.setPages(pageObj.getPages());
@@ -50,9 +49,9 @@ public class UserController {
     }
 
     /**
-     * 关键字查询
-     * 参数：username  用户名
-     * 返回值：UserVo  用户对象
+     *关键字查询
+     * @param username  用户名
+     * @return  ApiResult<UserVo>
      */
     @GetMapping("/search")
     public ApiResult<UserVo> queryByUsername(String username){
@@ -63,13 +62,9 @@ public class UserController {
     }
 
     /**
-     * 新增用户
-     * 参数一：username  用户名
-     * 参数二：password  密码
-     * 参数三：leaderId  领导id
-     * 参数四：userType  角色 0 普通用户 1 领导 2管理员（唯一）
-     * 参数五: isActive  是否激活  1表示激活  0表示未激活
-     * 返回值：无
+     *新增用户
+     * @param fo 用户表单对象
+     * @return  无
      */
     @PostMapping("/add")
      public ApiResult createUser(@RequestBody UserCreateFo fo){
@@ -86,11 +81,9 @@ public class UserController {
 
     /**
      * 用户编辑(修改)
-     * 参数一：username  用户名
-     * 参数二：leaderId  领导id
-     * 参数三：userType  角色 0 普通用户 1 领导 2管理员（唯一）
-     * 参数四: isActive  是否激活  1表示激活  0表示未激活
-     *  返回值：无
+     * @param fo   用户表单对象
+     * @param id   用户id
+     * @return 无
      */
     @PutMapping("/{id}")
     public ApiResult updateUser(@RequestBody UserUpdateFo fo, @PathVariable Integer id){
