@@ -64,7 +64,7 @@ public class UserController {
     /**
      *新增用户
      * @param fo 用户表单对象
-     * @return  无
+     * @return  ApiResult
      */
     @PostMapping("/add")
      public ApiResult createUser(@RequestBody UserCreateFo fo){
@@ -75,22 +75,31 @@ public class UserController {
          user.setCreateTime(new Date());
          user.setUpdateTime(new Date());
          userService.save(user);
-        return ApiResult.success();
+         return ApiResult.success();
       }
 
 
     /**
      * 用户编辑(修改)
      * @param fo   用户表单对象
-     * @param id   用户id
-     * @return 无
+     * @return ApiResult
      */
-    @PutMapping("/{id}")
-    public ApiResult updateUser(@RequestBody UserUpdateFo fo, @PathVariable Integer id){
+    @PostMapping("/update")
+    public ApiResult updateUser(@RequestBody UserUpdateFo fo){
         User user = new User();
         BeanUtils.copyProperties(fo, user);
-        user.setId(id);
         userService.updateById(user);
+        return ApiResult.success();
+    }
+
+    /**
+     * 用户编辑(修改)
+     * @param id  用户表id
+     * @return ApiResult
+     */
+    @DeleteMapping("")
+    public ApiResult deleteUser(Integer id){
+        userService.removeById(id);
         return ApiResult.success();
     }
 }

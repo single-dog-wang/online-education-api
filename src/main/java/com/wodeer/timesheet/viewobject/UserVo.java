@@ -3,6 +3,8 @@ package com.wodeer.timesheet.viewobject;
 import com.wodeer.timesheet.entity.User;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * 记录User对应的视图对象
  * @author guoya
@@ -33,6 +35,10 @@ public class UserVo {
      * 是否启用
      */
     private Integer isActive;
+    /**
+     * 记录创建时间（仅仅是记录作用）
+     */
+    private Date createTime;
 
     /**
      * 从实体对象转换的构造函数
@@ -45,6 +51,7 @@ public class UserVo {
         this.leaderId = user.getLeaderId();
         this.userType = user.getUserType();
         this.isActive = user.getIsActive();
+        this.createTime = user.getCreateTime();
     }
 
     public UserVo() {
