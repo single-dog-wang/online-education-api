@@ -4,7 +4,6 @@ import lombok.Data;
 
 /**
  * 更新记录User用的表单对象
- *
  * @author guoya
  */
 @Data

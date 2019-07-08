@@ -11,7 +11,6 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
  */
 @Configuration
 public class RedisConfig {
-    @SuppressWarnings("unchecked")
     @Bean
     public RedisTemplate<Object, Object> jsonRedisTemplate(
             RedisConnectionFactory redisConnectionFactory) {

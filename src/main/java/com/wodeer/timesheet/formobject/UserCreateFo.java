@@ -1,7 +1,6 @@
 package com.wodeer.timesheet.formobject;
 
 import lombok.Data;
-
 /**
  * 创建新增用户的表单对象
  *

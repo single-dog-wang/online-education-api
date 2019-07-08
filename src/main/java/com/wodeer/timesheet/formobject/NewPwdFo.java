@@ -4,7 +4,6 @@ import lombok.Data;
 
 /**
  * 创建修改所有用户密码的表单对象
- *
  * @author guoya
  */
 @Data

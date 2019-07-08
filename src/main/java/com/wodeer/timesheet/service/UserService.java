@@ -18,7 +18,7 @@ public class UserService extends ServiceImpl<UserDao, User> {
         return this.baseMapper.selectPage(new Page<>(currentPage, pageSize), null);
     }
 
-    public User queryByUsername(String username) {
+    public  User queryByUsername(String username) {
         return this.baseMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getUsername, username));
     }
 }

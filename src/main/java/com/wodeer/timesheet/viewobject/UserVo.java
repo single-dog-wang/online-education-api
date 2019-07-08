@@ -7,7 +7,6 @@ import java.util.Date;
 
 /**
  * 记录User对应的视图对象
- *
  * @author guoya
  */
 @Data
@@ -43,7 +42,6 @@ public class UserVo {
 
     /**
      * 从实体对象转换的构造函数
-     *
      * @param user 实体对象
      */
     public UserVo(User user) {
