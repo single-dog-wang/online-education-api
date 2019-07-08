@@ -17,6 +17,10 @@ import java.util.List;
  */
 @Service
 public class DemoService extends ServiceImpl<DemoDao, Demo> {
+    public IPage<Demo> findAll() {
+        return this.baseMapper.selectPage(new Page<>(0, 5), null);
+    }
+
     public List<Demo> queryDemo(String name, Integer maxId) {
         LambdaQueryWrapper<Demo> lambdaQuery = new LambdaQueryWrapper<>();
         lambdaQuery.like(Demo::getDemoName, name)

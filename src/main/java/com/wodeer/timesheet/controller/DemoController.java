@@ -90,7 +90,7 @@ public class DemoController {
 
     /**
      * 分页查询
-     *
+     *111
      * @param currentPage 当前页码
      * @param pageSize    每页记录数
      * @return the api result
@@ -182,5 +182,11 @@ public class DemoController {
             result = theDate.getTime();
         }
         return ApiResult.success(result);
+    }
+
+
+    @PostMapping("/user")
+    public IPage<Demo> findAll() {
+        return demoService.findAll();
     }
 }
