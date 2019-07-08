@@ -30,13 +30,14 @@ public class LoginService extends ServiceImpl<LoginDao, User> {
     /**
      * 根据username和password来查询userType
      */
+    @SuppressWarnings("unchecked")
     public ApiResult<User> findUserByUserNameAndPassword(String username, String password) {
         User user = this.baseMapper.selectOne(
                 new LambdaQueryWrapper<User>()
                         .eq(User::getUsername, username)
                         .eq(User::getPassword, Md5Util.encryption(password, SALT))
         );
-            String token = UUIDUtil.getUUID();
+        String token = UUIDUtil.getUuid();
             jsonRedisTemplate.opsForHash().put(REDIS_KEY, token, user);
             Cookie cookie = new Cookie("token", token);
             cookie.setMaxAge(3600);
