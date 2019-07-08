@@ -11,7 +11,7 @@
     <groupId>com.wodeer</groupId>
     <artifactId>timesheet</artifactId>
     <version>1.0.0</version>
-    <name>timesheet-api</name>
+    <name>timeSheet-api</name>
     <description>实验项目，工作日志系统 API</description>
 
     <properties>
@@ -76,11 +76,20 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.41</version>
         </dependency>
-        <!-- graylog 日志输出 -->
+        <!-- grayLog 日志输出 -->
         <dependency>
             <groupId>de.siegmar</groupId>
             <artifactId>logback-gelf</artifactId>
             <version>2.0.1</version>
+        </dependency>
+        <!--MD5加盐加密-->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
     </dependencies>
 
