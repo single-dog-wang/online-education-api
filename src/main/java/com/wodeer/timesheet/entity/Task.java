@@ -20,4 +20,9 @@ public class Task extends BaseEntity {
      * 工作日志内容
      */
     private String workContent;
+
+    /**
+     * 工作类型
+     */
+    private String workType;
 }

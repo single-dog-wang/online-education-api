@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * 创建日志记录的表单数据
@@ -14,13 +15,18 @@ import javax.validation.constraints.NotNull;
 @Data
 public class TaskCreateFo {
     /**
-     * 日志内容
+     * 工作内容
      */
     @NotEmpty
     private String content;
     /**
-     * 日志时间
+     * 工作时间
      */
     @NotNull
-    private String workDate;
+    private Date workDate;
+    /**
+     * 工作类型
+     */
+    @NotEmpty
+    private String workType;
 }

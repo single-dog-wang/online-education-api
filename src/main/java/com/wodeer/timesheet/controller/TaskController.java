@@ -33,7 +33,7 @@ public class TaskController {
      * the task service
      */
     @Autowired
-    TaskService taskService;
+    private TaskService taskService;
 
     /**
      * 分页查询列表
@@ -43,10 +43,9 @@ public class TaskController {
      * @return the api result
      */
     @GetMapping("/list")
-    public ApiResult<PageVo<TaskVo<TaskDate>>> taskList(Integer currentPage, Integer pageSize) {
-        // 先获取用户id
-        Integer userId = 8;
-        return ApiResult.success(taskService.taskList(userId, currentPage, pageSize));
+    public ApiResult<PageVo<TaskVo<TaskDate>>> taskList(Integer currentPage,
+                                                        Integer pageSize) {
+        return ApiResult.success(taskService.taskList(currentPage, pageSize));
     }
 
     /**
@@ -57,8 +56,7 @@ public class TaskController {
      */
     @PostMapping("/add")
     public ApiResult add(@Valid @RequestBody TaskCreateFo taskCreateFo) {
-        Integer userId = 8;
-        if (taskService.add(userId, taskCreateFo)) {
+        if (taskService.add(taskCreateFo)) {
             return ApiResult.success();
         } else {
             return ApiResult.fail(CommonErrorEnum.SAVE_FAILURE);
@@ -68,12 +66,12 @@ public class TaskController {
     /**
      * 快速添加日志
      *
-     * @param id 选择的日志内容id
+     * @param taskUpdateFo 接受工作内容id和时间
      * @return the adi result
      */
-    @GetMapping("/quick-add")
-    public ApiResult quickAdd(Integer id) {
-        if (taskService.quickAdd(id)) {
+    @PostMapping("/quick-add")
+    public ApiResult quickAdd(@Valid @RequestBody TaskUpdateFo taskUpdateFo) {
+        if (taskService.quickAdd(taskUpdateFo.getTaskId(), taskUpdateFo.getWorkDate())) {
             return ApiResult.success();
         } else {
             return ApiResult.fail(CommonErrorEnum.SAVE_FAILURE);
@@ -107,6 +105,12 @@ public class TaskController {
         return ApiResult.success(taskService.associationSearch(userId, keyContent));
     }
 
+    /**
+     * 更新日志
+     *
+     * @param taskUpdateFo 更新工作日志的内容
+     * @return the api result
+     */
     @PutMapping("")
     public ApiResult modify(@Valid @RequestBody TaskUpdateFo taskUpdateFo) {
         if(taskService.modify(taskUpdateFo) > 0){
@@ -130,4 +134,6 @@ public class TaskController {
             return ApiResult.fail(CommonErrorEnum.DELETE_NOT_FOUND);
         }
     }
+
+
 }

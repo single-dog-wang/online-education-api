@@ -15,6 +15,7 @@ public class TaskVo<T> {
     private Integer id;
     private Integer userId;
     private String workContent;
+    private String workType;
     /**
      * 日期数量
      */
@@ -28,5 +29,6 @@ public class TaskVo<T> {
         this.id = task.getId();
         this.userId = task.getUserId();
         this.workContent = task.getWorkContent();
+        this.workType = task.getWorkType();
     }
 }
