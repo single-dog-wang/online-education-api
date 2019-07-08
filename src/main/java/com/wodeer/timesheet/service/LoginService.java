@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wodeer.timesheet.dao.LoginDao;
 import com.wodeer.timesheet.entity.User;
 import com.wodeer.timesheet.model.ApiResult;
-import com.wodeer.timesheet.util.MD5Util;
+import com.wodeer.timesheet.util.Md5Util;
 import com.wodeer.timesheet.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -34,7 +34,7 @@ public class LoginService extends ServiceImpl<LoginDao, User> {
         User user = this.baseMapper.selectOne(
                 new LambdaQueryWrapper<User>()
                         .eq(User::getUsername, username)
-                        .eq(User::getPassword, MD5Util.encryption(password, SALT))
+                        .eq(User::getPassword, Md5Util.encryption(password, SALT))
         );
             String token = UUIDUtil.getUUID();
             jsonRedisTemplate.opsForHash().put(REDIS_KEY, token, user);
