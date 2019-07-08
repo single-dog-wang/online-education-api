@@ -33,7 +33,7 @@ public class TaskController {
      * the task service
      */
     @Autowired
-    TaskService taskService;
+    private TaskService taskService;
 
     /**
      * 分页查询列表
@@ -43,10 +43,9 @@ public class TaskController {
      * @return the api result
      */
     @GetMapping("/list")
-    public ApiResult<PageVo<TaskVo<TaskDate>>> taskList(Integer currentPage, Integer pageSize) {
-        // 先获取用户id
-        Integer userId = 8;
-        return ApiResult.success(taskService.taskList(userId, currentPage, pageSize));
+    public ApiResult<PageVo<TaskVo<TaskDate>>> taskList(Integer currentPage,
+                                                        Integer pageSize) {
+        return ApiResult.success(taskService.taskList(currentPage, pageSize));
     }
 
     /**
@@ -57,8 +56,7 @@ public class TaskController {
      */
     @PostMapping("/add")
     public ApiResult add(@Valid @RequestBody TaskCreateFo taskCreateFo) {
-        Integer userId = 8;
-        if (taskService.add(userId, taskCreateFo)) {
+        if (taskService.add(taskCreateFo)) {
             return ApiResult.success();
         } else {
             return ApiResult.fail(CommonErrorEnum.SAVE_FAILURE);
@@ -136,4 +134,6 @@ public class TaskController {
             return ApiResult.fail(CommonErrorEnum.DELETE_NOT_FOUND);
         }
     }
+
+
 }
