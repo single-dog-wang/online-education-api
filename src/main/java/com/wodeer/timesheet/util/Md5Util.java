@@ -6,7 +6,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 /**
  * @author guoya
  */
-public class MD5Util {
+
+public class Md5Util {
 
 	/**
 	 *String DigestUtils.md5Hex(str)
