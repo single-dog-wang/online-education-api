@@ -38,10 +38,9 @@ public class LoginService extends ServiceImpl<LoginDao, User> {
                         .eq(User::getUsername, username)
                         .eq(User::getPassword, Md5Util.encryption(password, SALT))
         );
-
         if(user != null){
             String token = UUIDUtil.getUuid();
-            jsonRedisTemplate.opsForHash().put(REDIS_KEY, token, user);
+            jsonRedisTemplate.opsForHash().put(REDIS_KEY+user.getId(), token, user);
             Cookie cookie = new Cookie("token", token);
             cookie.setMaxAge(3600);
             cookie.setPath("/");

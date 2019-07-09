@@ -42,6 +42,7 @@ public enum CommonErrorEnum implements ErrorInfo {
 
     //登录相关
     LOGIN_FAILURE(110401, "登录失败，用户名和密码错误"),
+    LOGIN_REMIND(110402, "未登录不能进行此操作，请先进行登录"),
     ;
 
     /**

@@ -8,6 +8,8 @@ import com.wodeer.timesheet.dao.UserDao;
 import com.wodeer.timesheet.entity.User;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author guoya
  */
@@ -18,7 +20,7 @@ public class UserService extends ServiceImpl<UserDao, User> {
         return this.baseMapper.selectPage(new Page<>(currentPage, pageSize), null);
     }
 
-    public  User queryByUsername(String username) {
-        return this.baseMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getUsername, username));
+    public List<User>  queryByUsername(String username) {
+          return this.baseMapper.selectList(new LambdaQueryWrapper<User>().eq(User::getUsername, username));
     }
 }
