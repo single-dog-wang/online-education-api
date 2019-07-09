@@ -40,7 +40,7 @@ public class LoginService extends ServiceImpl<LoginDao, User> {
         String token = UUIDUtil.getUuid();
             jsonRedisTemplate.opsForHash().put(REDIS_KEY, token, user);
             Cookie cookie = new Cookie("token", token);
-            cookie.setMaxAge(3600);
+        cookie.setMaxAge(36000);
             cookie.setPath("/");
             response.addCookie(cookie);
 

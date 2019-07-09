@@ -18,6 +18,8 @@ public class CorsConfig {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         // 允许任何域名
         corsConfiguration.addAllowedOrigin("*");
+        // 允许cookie
+        corsConfiguration.setAllowCredentials(true);
         // 允许任何头
         corsConfiguration.addAllowedHeader("*");
         // 允许任何方法
