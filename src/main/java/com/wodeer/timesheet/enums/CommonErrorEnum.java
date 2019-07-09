@@ -39,6 +39,9 @@ public enum CommonErrorEnum implements ErrorInfo {
 
     // 文件相关
     FILE_UPLOAD_IO(110301, "文件上传失败。"),
+
+    //登录相关
+    LOGIN_FAILURE(110401, "登录失败，用户名和密码错误"),
     ;
 
     /**
