@@ -2,17 +2,21 @@ package com.wodeer.timesheet.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wodeer.timesheet.entity.User;
+import com.wodeer.timesheet.enums.CommonErrorEnum;
 import com.wodeer.timesheet.formobject.UserCreateFo;
 import com.wodeer.timesheet.formobject.UserUpdateFo;
 import com.wodeer.timesheet.model.ApiResult;
 import com.wodeer.timesheet.service.UserService;
+import com.wodeer.timesheet.util.CookieUtil;
 import com.wodeer.timesheet.util.Md5Util;
 import com.wodeer.timesheet.viewobject.PageVo;
 import com.wodeer.timesheet.viewobject.UserVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
-
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,11 +24,19 @@ import java.util.stream.Collectors;
 /**
  * @author guoya
  */
+@SuppressWarnings("unchecked")
 @RestController
 @RequestMapping("/admin/employee")
 public class UserController {
+    private static final String REDIS_KEY = "com.wodeer.timesheet.redis";
     @Autowired
     UserService userService;
+
+    @Autowired
+    HttpServletRequest request;
+
+    @Autowired
+    RedisTemplate jsonRedisTemplate;
     /*
      * IPage接口中有三个方法：
      * getTotal()   得到总条数
@@ -54,11 +66,15 @@ public class UserController {
      * @return  ApiResult<UserVo>
      */
     @GetMapping("/search")
-    public ApiResult<UserVo> queryByUsername(String username){
-        UserVo userVo = new UserVo();
-        User user = userService.queryByUsername(username);
-        BeanUtils.copyProperties(user, userVo);
-        return  ApiResult.success(userVo);
+    public ApiResult<List<UserVo>> queryByUsername(String username){
+        List<UserVo> userVos = new ArrayList<>();
+        List<User> users = userService.queryByUsername(username);
+        for (User user:users){
+            UserVo userVO =new UserVo();
+            BeanUtils.copyProperties(user,userVO);
+            userVos.add(userVO);
+        }
+        return  ApiResult.success(userVos);
     }
 
     /**
@@ -66,16 +82,22 @@ public class UserController {
      * @param fo 用户表单对象
      * @return  ApiResult
      */
+    @SuppressWarnings("unchecked")
     @PostMapping("/add")
      public ApiResult createUser(@RequestBody UserCreateFo fo){
-         User user = new User();
-         BeanUtils.copyProperties(fo, user);
-         user.setPassword(Md5Util.encryption(fo.getPassword(), "098123"));
-         user.setIsActive(1);
-         user.setCreateTime(new Date());
-         user.setUpdateTime(new Date());
-         userService.save(user);
-         return ApiResult.success();
+        String token = CookieUtil.getToken(request);
+        if ( jsonRedisTemplate.opsForHash().get(REDIS_KEY, token)!= null) {
+            User user = new User();
+            BeanUtils.copyProperties(fo, user);
+            user.setPassword(Md5Util.encryption(fo.getPassword(), "098123"));
+            user.setIsActive(1);
+            user.setCreateTime(new Date());
+            user.setUpdateTime(new Date());
+            userService.save(user);
+            return ApiResult.success();
+        } else {
+            return ApiResult.fail(CommonErrorEnum.LOGIN_REMIND);
+        }
       }
 
 
@@ -86,20 +108,33 @@ public class UserController {
      */
     @PostMapping("/update")
     public ApiResult updateUser(@RequestBody UserUpdateFo fo){
-        User user = new User();
-        BeanUtils.copyProperties(fo, user);
-        userService.updateById(user);
-        return ApiResult.success();
+        String token = CookieUtil.getToken(request);
+        if ( jsonRedisTemplate.opsForHash().get(REDIS_KEY, token)!= null){
+            User user = new User();
+            BeanUtils.copyProperties(fo, user);
+            userService.updateById(user);
+            return ApiResult.success();
+        }else{
+            return ApiResult.fail(CommonErrorEnum.LOGIN_REMIND);
+        }
     }
 
     /**
-     * 用户编辑(修改)
+     * 用户编辑(伪删除)
      * @param id  用户表id
      * @return ApiResult
      */
-    @DeleteMapping("")
-    public ApiResult deleteUser(Integer id){
-        userService.removeById(id);
-        return ApiResult.success();
+    @GetMapping("/remove ")
+    public ApiResult deleteUser(Integer id, Integer isActive) {
+        String token = CookieUtil.getToken(request);
+        if (jsonRedisTemplate.opsForHash().get(REDIS_KEY, token) != null) {
+            User user = new User();
+            user.setId(id);
+            user.setIsActive(isActive);
+            userService.updateById(user);
+            return ApiResult.success();
+        }else{
+            return ApiResult.fail(CommonErrorEnum.LOGIN_REMIND);
+        }
     }
 }
