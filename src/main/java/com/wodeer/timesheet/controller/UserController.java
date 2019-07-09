@@ -6,7 +6,7 @@ import com.wodeer.timesheet.formobject.UserCreateFo;
 import com.wodeer.timesheet.formobject.UserUpdateFo;
 import com.wodeer.timesheet.model.ApiResult;
 import com.wodeer.timesheet.service.UserService;
-import com.wodeer.timesheet.util.MD5Util;
+import com.wodeer.timesheet.util.Md5Util;
 import com.wodeer.timesheet.viewobject.PageVo;
 import com.wodeer.timesheet.viewobject.UserVo;
 import org.springframework.beans.BeanUtils;
@@ -70,7 +70,7 @@ public class UserController {
      public ApiResult createUser(@RequestBody UserCreateFo fo){
          User user = new User();
          BeanUtils.copyProperties(fo, user);
-         user.setPassword(MD5Util.encryption(fo.getPassword(), "098123"));
+         user.setPassword(Md5Util.encryption(fo.getPassword(), "098123"));
          user.setIsActive(1);
          user.setCreateTime(new Date());
          user.setUpdateTime(new Date());
