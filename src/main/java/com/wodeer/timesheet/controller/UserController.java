@@ -122,6 +122,7 @@ public class UserController {
     /**
      * 用户编辑(伪删除)
      * @param id  用户表id
+     * @param isActive  是否启用
      * @return ApiResult
      */
     @GetMapping("/remove ")
