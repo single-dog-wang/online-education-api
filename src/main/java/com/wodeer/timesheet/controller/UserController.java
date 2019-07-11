@@ -49,6 +49,16 @@ public class UserController {
     }
 
     /**
+     * 获取所有用户信息
+     *
+     * @return the api result
+     */
+    @GetMapping("/searchAll")
+    public ApiResult<List<User>> searchAll() {
+        return ApiResult.success(userService.list());
+    }
+
+    /**
      *关键字查询
      * @param username  用户名
      * @return  ApiResult<UserVo>
