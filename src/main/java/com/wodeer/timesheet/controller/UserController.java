@@ -70,7 +70,7 @@ public class UserController {
      public ApiResult createUser(@RequestBody UserCreateFo fo){
          User user = new User();
          BeanUtils.copyProperties(fo, user);
-        user.setPassword(Md5Util.encryption(fo.getPassword(), "098123"));
+        user.setPassword(Md5Util.encryption("123456", "098123"));
          user.setIsActive(1);
          user.setCreateTime(new Date());
          user.setUpdateTime(new Date());
