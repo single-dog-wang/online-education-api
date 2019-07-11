@@ -23,6 +23,5 @@ public class TaskDate extends BaseEntity {
     /**
      * 工作日志时间
      */
-    @JsonFormat(pattern = SystemConstant.DATE_PATTERN)
     private Date workDate;
 }
