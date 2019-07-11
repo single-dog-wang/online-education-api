@@ -1,7 +1,5 @@
 package com.wodeer.timesheet.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.wodeer.timesheet.constant.SystemConstant;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
