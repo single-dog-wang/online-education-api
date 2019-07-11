@@ -152,9 +152,9 @@ public class TaskService extends ServiceImpl<TaskDao, Task> {
             TaskVo<TaskDate> taskVo = new TaskVo<>(task);
             if (dateList.size() > 0) {
                 taskVo.setDateList(dateList);
+                taskVo.setDateCount(dateList.size());
+                result.add(taskVo);
             }
-            taskVo.setDateCount(dateList.size());
-            result.add(taskVo);
         }
         return result;
     }
