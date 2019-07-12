@@ -30,6 +30,7 @@ public class LoginService extends ServiceImpl<LoginDao, User> {
 
     /**
      * 根据username和password来查询userType
+     * hfdkhfkdshflk
      */
     @SuppressWarnings("unchecked")
     public ApiResult<User> findUserByUserNameAndPassword(String username, String password) {
