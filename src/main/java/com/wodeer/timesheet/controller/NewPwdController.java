@@ -27,7 +27,7 @@ public class NewPwdController {
     public ApiResult updatePwd(@RequestBody NewPwdFo fo){
         User user = new User();
         BeanUtils.copyProperties(fo, user);
-        user.setPassword(Md5Util.encryption(fo.getPassword(), "098123"));
+        user.setPassword(MD5Util.encryption(fo.getPassword(), "098123"));
         newPwdService.updateById(user);
         return ApiResult.success();
     }
