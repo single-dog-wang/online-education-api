@@ -1,7 +1,5 @@
 package com.wodeer.timesheet.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.wodeer.timesheet.constant.SystemConstant;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -23,6 +21,5 @@ public class TaskDate extends BaseEntity {
     /**
      * 工作日志时间
      */
-    @JsonFormat(pattern = SystemConstant.DATETIME_PATTERN)
     private Date workDate;
 }

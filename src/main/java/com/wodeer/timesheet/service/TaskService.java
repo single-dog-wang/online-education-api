@@ -121,11 +121,6 @@ public class TaskService extends ServiceImpl<TaskDao, Task> {
 
 
     public Integer modify(TaskUpdateFo taskUpdateFo) {
-        TaskDate taskDate = new TaskDate();
-        taskDate.setId(taskUpdateFo.getTaskDateId());
-        taskDate.setWorkDate(taskUpdateFo.getWorkDate());
-        taskDate.setUpdateTime(new Date());
-        taskDateService.updateById(taskDate);
         Task task = new Task();
         task.setId(taskUpdateFo.getTaskId());
         task.setWorkContent(taskUpdateFo.getContent());
@@ -154,8 +149,8 @@ public class TaskService extends ServiceImpl<TaskDao, Task> {
                 //获取当前内容所有时间
                 dateList = taskDateService.taskDateList(task.getId());
             }
+            TaskVo<TaskDate> taskVo = new TaskVo<>(task);
             if (dateList.size() > 0) {
-                TaskVo<TaskDate> taskVo = new TaskVo<>(task);
                 taskVo.setDateList(dateList);
                 taskVo.setDateCount(dateList.size());
                 result.add(taskVo);
