@@ -1,19 +1,15 @@
 package com.wodeer.timesheet.entity;
 
 import lombok.Data;
-
-import java.io.Serializable;
-import java.util.Date;
+import lombok.EqualsAndHashCode;
 
 /**
- * @author guoya
+ * @author wuliming
+ * @date 2019-07-08 9:25
  */
 @Data
-public class User implements Serializable {
-    /**
-     * 主键ID
-     */
-    private Integer id;
+@EqualsAndHashCode(callSuper = true)
+public class User extends BaseEntity {
     /**
      * 用户名
      */
@@ -34,12 +30,4 @@ public class User implements Serializable {
      * 是否启用
      */
     private Integer isActive;
-    /**
-     * 记录创建时间（仅仅是记录作用）
-     */
-    private Date createTime;
-    /**
-     * 记录更新的时间（仅仅是记录的作用）
-     */
-    private Date updateTime;
 }

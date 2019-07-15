@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wodeer.timesheet.dao.LoginDao;
 import com.wodeer.timesheet.entity.User;
-import com.wodeer.timesheet.enums.CommonErrorEnum;
 import com.wodeer.timesheet.model.ApiResult;
 import com.wodeer.timesheet.util.Md5Util;
 import com.wodeer.timesheet.util.UUIDUtil;
@@ -38,17 +37,13 @@ public class LoginService extends ServiceImpl<LoginDao, User> {
                         .eq(User::getUsername, username)
                         .eq(User::getPassword, Md5Util.encryption(password, SALT))
         );
-        if(user != null){
-            String token = UUIDUtil.getUuid();
-            jsonRedisTemplate.opsForHash().put(REDIS_KEY+user.getId(), token, user);
+        String token = UUIDUtil.getUuid();
+            jsonRedisTemplate.opsForHash().put(REDIS_KEY, token, user);
             Cookie cookie = new Cookie("token", token);
-            cookie.setMaxAge(3600);
+        cookie.setMaxAge(36000);
             cookie.setPath("/");
             response.addCookie(cookie);
-            return ApiResult.success(user);
-        }else{
-            return  ApiResult.fail(CommonErrorEnum. LOGIN_FAILURE);
-        }
 
+            return ApiResult.success(user);
     }
 }
