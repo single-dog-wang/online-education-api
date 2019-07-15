@@ -2,12 +2,10 @@ package com.wodeer.timesheet.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wodeer.timesheet.entity.User;
-import com.wodeer.timesheet.enums.CommonErrorEnum;
 import com.wodeer.timesheet.formobject.UserCreateFo;
 import com.wodeer.timesheet.formobject.UserUpdateFo;
 import com.wodeer.timesheet.model.ApiResult;
 import com.wodeer.timesheet.service.UserService;
-import com.wodeer.timesheet.util.CookieUtil;
 import com.wodeer.timesheet.util.Md5Util;
 import com.wodeer.timesheet.viewobject.PageVo;
 import com.wodeer.timesheet.viewobject.UserVo;
@@ -28,7 +26,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/admin/employee")
 public class UserController {
-    private static final String REDIS_KEY = "com.wodeer.timesheet.redis";
     @Autowired
     UserService userService;
 
@@ -51,13 +48,25 @@ public class UserController {
      * @return  ApiResult<List<UserVo>>
      */
     @GetMapping("/list")
-    public ApiResult<List<UserVo>> queryByPage(Integer currentPage, Integer pageSize){
-        IPage<User> pageObj = userService.queryByPage(currentPage, pageSize);
+    public ApiResult<List<UserVo>> queryByPage(Integer currentPage, Integer pageSize, Integer isActive){
+        IPage<User> pageObj = userService.queryByPage(currentPage, pageSize, isActive);
         PageVo<UserVo> result = new PageVo<>();
-        result.setTotal(pageObj.getTotal());
-        result.setPages(pageObj.getPages());
         result.setRecords(pageObj.getRecords().stream().map(UserVo::new).collect(Collectors.toList()));
         return ApiResult.success(result.getRecords());
+    }
+
+    /**
+     * 分页查询所有记录
+     * @param currentPage   当前页面
+     * @param pageSize   当前页面的总条数
+     * @return  ApiResult<List<UserVo>>
+     */
+    @GetMapping("/total")
+    public ApiResult<Long> queryByPageTotal(Integer currentPage, Integer pageSize, Integer isActive){
+        IPage<User> pageObj = userService.queryByPageTotal(currentPage, pageSize, isActive);
+        PageVo<UserVo> result = new PageVo<>();
+        result.setTotal(pageObj.getTotal());
+        return ApiResult.success(result.getTotal());
     }
 
     /**
@@ -66,9 +75,9 @@ public class UserController {
      * @return  ApiResult<UserVo>
      */
     @GetMapping("/search")
-    public ApiResult<List<UserVo>> queryByUsername(String username){
+    public ApiResult<List<UserVo>> queryByUsername(String username, Integer isActive){
         List<UserVo> userVos = new ArrayList<>();
-        List<User> users = userService.queryByUsername(username);
+        List<User> users = userService.queryByUsername(username, isActive);
         for (User user:users){
             UserVo userVO =new UserVo();
             BeanUtils.copyProperties(user,userVO);
@@ -85,8 +94,6 @@ public class UserController {
     @SuppressWarnings("unchecked")
     @PostMapping("/add")
      public ApiResult createUser(@RequestBody UserCreateFo fo){
-        String token = CookieUtil.getToken(request);
-        if ( jsonRedisTemplate.opsForHash().get(REDIS_KEY, token)!= null) {
             User user = new User();
             BeanUtils.copyProperties(fo, user);
             user.setPassword(Md5Util.encryption(fo.getPassword(), "098123"));
@@ -95,9 +102,6 @@ public class UserController {
             user.setUpdateTime(new Date());
             userService.save(user);
             return ApiResult.success();
-        } else {
-            return ApiResult.fail(CommonErrorEnum.LOGIN_REMIND);
-        }
       }
 
 
@@ -108,15 +112,10 @@ public class UserController {
      */
     @PostMapping("/update")
     public ApiResult updateUser(@RequestBody UserUpdateFo fo){
-        String token = CookieUtil.getToken(request);
-        if ( jsonRedisTemplate.opsForHash().get(REDIS_KEY, token)!= null){
             User user = new User();
             BeanUtils.copyProperties(fo, user);
             userService.updateById(user);
             return ApiResult.success();
-        }else{
-            return ApiResult.fail(CommonErrorEnum.LOGIN_REMIND);
-        }
     }
 
     /**
@@ -125,17 +124,12 @@ public class UserController {
      * @param isActive  是否启用
      * @return ApiResult
      */
-    @GetMapping("/remove ")
+    @DeleteMapping("")
     public ApiResult deleteUser(Integer id, Integer isActive) {
-        String token = CookieUtil.getToken(request);
-        if (jsonRedisTemplate.opsForHash().get(REDIS_KEY, token) != null) {
             User user = new User();
             user.setId(id);
             user.setIsActive(isActive);
             userService.updateById(user);
             return ApiResult.success();
-        }else{
-            return ApiResult.fail(CommonErrorEnum.LOGIN_REMIND);
-        }
     }
 }

@@ -16,11 +16,17 @@ import java.util.List;
 @Service
 public class UserService extends ServiceImpl<UserDao, User> {
 
-    public IPage<User> queryByPage(Integer currentPage, Integer pageSize) {
-        return this.baseMapper.selectPage(new Page<>(currentPage, pageSize), null);
+    public IPage<User> queryByPage(Integer currentPage, Integer pageSize, Integer isActive) {
+        return this.baseMapper.selectPage(new Page<>(currentPage, pageSize),
+                                          new LambdaQueryWrapper<User>().eq(User::getIsActive, isActive));
     }
 
-    public List<User>  queryByUsername(String username) {
-          return this.baseMapper.selectList(new LambdaQueryWrapper<User>().eq(User::getUsername, username));
+    public List<User>  queryByUsername(String username, Integer isActive) {
+          return this.baseMapper.selectList(new LambdaQueryWrapper<User>().like(User::getUsername, username).eq(User::getIsActive, isActive));
+    }
+
+    public IPage<User> queryByPageTotal(Integer currentPage, Integer pageSize, Integer isActive) {
+        return this.baseMapper.selectPage(new Page<>(currentPage, pageSize),
+                                          new LambdaQueryWrapper<User>().eq(User::getIsActive, isActive));
     }
 }

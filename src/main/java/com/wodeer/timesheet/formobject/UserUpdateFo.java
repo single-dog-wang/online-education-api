@@ -24,8 +24,4 @@ public class UserUpdateFo {
      * 用户类型
      */
     private Integer userType;
-    /**
-     * 是否启用
-     */
-    private Integer isActive;
 }
