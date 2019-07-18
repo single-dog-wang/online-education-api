@@ -7,11 +7,10 @@ import com.wodeer.timesheet.entity.User;
 import com.wodeer.timesheet.enums.CommonErrorEnum;
 import com.wodeer.timesheet.model.ApiResult;
 import com.wodeer.timesheet.util.Md5Util;
-import com.wodeer.timesheet.util.UUIDUtil;
+import com.wodeer.timesheet.viewobject.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -19,36 +18,31 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Service
 public class LoginService extends ServiceImpl<LoginDao, User> {
-    private static final String REDIS_KEY = "com.wodeer.timesheet.redis";
     private  static final String SALT = "098123";
 
     @Autowired
     HttpServletResponse response;
 
     @Autowired
-    RedisTemplate jsonRedisTemplate;
+    StringRedisTemplate redis;
 
     /**
      * 根据username和password来查询userType
      */
-    @SuppressWarnings("unchecked")
-    public ApiResult<User> findUserByUserNameAndPassword(String username, String password) {
+    public ApiResult findUserByUserNameAndPassword(String username, String password) {
         User user = this.baseMapper.selectOne(
                 new LambdaQueryWrapper<User>()
                         .eq(User::getUsername, username)
                         .eq(User::getPassword, Md5Util.encryption(password, SALT))
         );
         if(user != null){
-            String token = UUIDUtil.getUuid();
-            jsonRedisTemplate.opsForHash().put(REDIS_KEY+user.getId(), token, user);
-            Cookie cookie = new Cookie("token", token);
-            cookie.setMaxAge(3600);
-            cookie.setPath("/");
-            response.addCookie(cookie);
-            return ApiResult.success(user);
+            UserVo userVo = new UserVo(user);
+            String token = user.getId().toString();
+            userVo.setToken(token);
+            redis.opsForValue().set("token:"+token, token);
+            return ApiResult.success(userVo);
         }else{
             return  ApiResult.fail(CommonErrorEnum. LOGIN_FAILURE);
         }
-
     }
 }

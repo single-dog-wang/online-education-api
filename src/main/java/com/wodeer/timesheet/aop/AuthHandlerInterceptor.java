@@ -1,16 +1,12 @@
 package com.wodeer.timesheet.aop;
 
-import com.alibaba.fastjson.JSON;
-import com.wodeer.timesheet.dto.TokenDto;
 import com.wodeer.timesheet.enums.CacheEnum;
 import com.wodeer.timesheet.exception.AuthException;
-import com.wodeer.timesheet.util.ProfileUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Component
 public class AuthHandlerInterceptor implements HandlerInterceptor {
-    private static final String TOKEN_PARAM_KEY = "x-access-token";
-    private static final String ANONYMOUS_ACCESS_PREFIX = "/";
+    private static final String TOKEN_PARAM_KEY = "userId";
+    private static final String ANONYMOUS_ACCESS_PREFIX = "/login/findUserByUP";
     private static final String DOWNLOAD_URL_PREFIX= "/file/download/";
 
     @Autowired
@@ -35,7 +31,6 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
         if (request.getServletPath().startsWith(ANONYMOUS_ACCESS_PREFIX)) {
             return true;
         }
-
         // 大部分请求是把token放在header中
         String tokenKey = request.getHeader(TOKEN_PARAM_KEY);
         // 页面上的锚点连接<a>不好加header，就把token放在url参数中
@@ -48,8 +43,7 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
             String tokenValue = redis.opsForValue().get(cacheKey);
             // 如果进一步能从缓存中拿到token对应的数据，就验证成功。
             if (StringUtils.isNotBlank(tokenValue)) {
-                TokenDto tokenDto = JSON.parseObject(tokenValue, TokenDto.class);
-                ProfileUtil.setUserProfile(request, tokenDto);
+//               TokenDto tokenDto = JSON.parseObject(tokenValue, TokenDto.class);    ProfileUtil.setUserProfile(request, tokenDto);
                 return true;
             } else {
                 // 如果token不能从缓存中转换为身份数据。

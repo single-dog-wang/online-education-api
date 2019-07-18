@@ -39,7 +39,10 @@ public class UserVo {
      * 记录创建时间（仅仅是记录作用）
      */
     private Date createTime;
-
+    /**
+     * token
+     */
+    private String token;
     /**
      * 从实体对象转换的构造函数
      * @param user 实体对象

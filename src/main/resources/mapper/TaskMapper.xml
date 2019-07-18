@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wodeer.timesheet.dao.TaskDao">
+    <select id="queryAll" resultType="com.wodeer.timesheet.viewobject.TaskVo">
+       select
+       u.id, u.username, td.work_date, t.work_content,t.work_type,t.create_time
+       from
+       task_date td, task t,user u
+       where
+       t.id = td.task_id
+       and
+       u.id = t.user_id
+       and
+       u.is_active = #{isActive}
+    </select>
+</mapper>
+
