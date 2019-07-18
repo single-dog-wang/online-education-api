@@ -39,9 +39,9 @@ public class Md5Util {
 		return md5(str + dbSalt);
 	}
 
-
 	/**
 	 * 封装两次加盐加密的方法
+	 * 加盐加密
 	 */
 	public static String encryption(String str, String dbSalt) {
 		return secondEncryption(firstEncryption(str), dbSalt);
