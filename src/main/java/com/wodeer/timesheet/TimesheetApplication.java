@@ -10,10 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2019-06-20 15:49
  */
 @SpringBootApplication
-public class TimeSheetApplication {
+public class TimesheetApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(TimeSheetApplication.class, args);
+        SpringApplication.run(TimesheetApplication.class, args);
     }
 
 }

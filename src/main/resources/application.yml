@@ -22,7 +22,8 @@ spring:
     host: 120.77.237.202
     port: 6379
     database: 15
-
+  jackson:
+    time-zone: GMT+8
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

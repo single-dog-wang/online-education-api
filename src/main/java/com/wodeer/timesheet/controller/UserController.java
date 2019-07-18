@@ -11,10 +11,8 @@ import com.wodeer.timesheet.viewobject.PageVo;
 import com.wodeer.timesheet.viewobject.UserVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,18 +20,11 @@ import java.util.stream.Collectors;
 /**
  * @author guoya
  */
-@SuppressWarnings("unchecked")
 @RestController
 @RequestMapping("/admin/employee")
 public class UserController {
     @Autowired
     UserService userService;
-
-    @Autowired
-    HttpServletRequest request;
-
-    @Autowired
-    RedisTemplate jsonRedisTemplate;
     /*
      * IPage接口中有三个方法：
      * getTotal()   得到总条数
@@ -91,7 +82,6 @@ public class UserController {
      * @param fo 用户表单对象
      * @return  ApiResult
      */
-    @SuppressWarnings("unchecked")
     @PostMapping("/add")
      public ApiResult createUser(@RequestBody UserCreateFo fo){
             User user = new User();
@@ -119,9 +109,8 @@ public class UserController {
     }
 
     /**
-     * 用户编辑(伪删除)
+     * 用户编辑(修改)
      * @param id  用户表id
-     * @param isActive  是否启用
      * @return ApiResult
      */
     @DeleteMapping("")
