@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author richard
  * @date 2019-06-21 22:29
  */
+@SuppressWarnings("unused")
 public final class ProfileUtil {
     private static final String ATTRIBUTE_USER_PROFILE = "USER_PROFILE";
 

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author richard
  * @date 2019-06-21 20:04
  */
+@SuppressWarnings("AlibabaRemoveCommentedCode")
 @Component
 public class AuthHandlerInterceptor implements HandlerInterceptor {
     private static final String TOKEN_PARAM_KEY = "userId";

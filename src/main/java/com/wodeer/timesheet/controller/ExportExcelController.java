@@ -164,7 +164,6 @@ public class ExportExcelController {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String time= sdf.format(userVos[i].getCreateTime());
             row.createCell(5).setCellValue(time);
-            j = j + 1;
         }
         //输出Excel文件
         response.setHeader("Content-disposition", "attachment; filename=timesheet.xls");
@@ -178,7 +177,6 @@ public class ExportExcelController {
      * 使用POI编程导出Task表格,导入到客户端的浏览器上
      * @throws Exception 异常
      */
-    @SuppressWarnings("UnusedAssignment")
     @GetMapping("/exportTask")
     public void exportTask() throws Exception {
         //创建HSSFWorkbook对象(excel的文档对象)
@@ -215,7 +213,6 @@ public class ExportExcelController {
             HSSFRow row=sheet.createRow(j);
             row.createCell(0).setCellValue(taskVos[i].getWorkContent());
             row.createCell(7).setCellValue(taskVos[i].getWorkType());
-            j++;
             if(i < taskVos.length-1){
                 Long mole2 = moles[i];
                 float percent = BigDecimal.valueOf(mole2).divide(BigDecimal.valueOf(deno), 4, BigDecimal.ROUND_HALF_UP).floatValue();
