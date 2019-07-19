@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 身份认证拦截器
- *
+ * TokenDto tokenDto = JSON.parseObject(tokenValue, TokenDto.class);    ProfileUtil.setUserProfile(request, tokenDto);
  * @author richard
  * @date 2019-06-21 20:04
  */
@@ -44,7 +44,6 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
             String tokenValue = redis.opsForValue().get(cacheKey);
             // 如果进一步能从缓存中拿到token对应的数据，就验证成功。
             if (StringUtils.isNotBlank(tokenValue)) {
-//               TokenDto tokenDto = JSON.parseObject(tokenValue, TokenDto.class);    ProfileUtil.setUserProfile(request, tokenDto);
                 return true;
             } else {
                 // 如果token不能从缓存中转换为身份数据。
