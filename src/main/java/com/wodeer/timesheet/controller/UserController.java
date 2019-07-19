@@ -34,9 +34,10 @@ public class UserController {
      */
 
     /**
-     * 分页查询所有用户
+     * 分页查询所有用户(管理员)
      * @param currentPage   当前页面
      * @param pageSize   当前页面的总条数
+     * @param isActive   是否被激活
      * @return  ApiResult<List<UserVo>>
      */
     @GetMapping("/list")
@@ -48,10 +49,11 @@ public class UserController {
     }
 
     /**
-     * 分页查询所有记录
+     * 分页查询所有的记录(管理员)
      * @param currentPage   当前页面
      * @param pageSize   当前页面的总条数
-     * @return  ApiResult<List<UserVo>>
+     * @param isActive   是否被激活
+     * @return  ApiResult<Long>
      */
     @GetMapping("/total")
     public ApiResult<Long> queryByPageTotal(Integer currentPage, Integer pageSize, Integer isActive){
@@ -62,14 +64,66 @@ public class UserController {
     }
 
     /**
-     *关键字查询
+     * 分页查询所属用户(领导)
+     * @param currentPage   当前页面
+     * @param pageSize   当前页面的总条数
+     * @param isActive   是否被激活
+     * @param id         领导id
+     * @return  ApiResult<List<UserVo>>
+     */
+    @GetMapping("/list/{id}")
+    public ApiResult<List<UserVo>> queryByPageLeader(Integer currentPage, Integer pageSize, Integer isActive, @PathVariable  Integer id){
+        IPage<User> pageObj = userService.queryByPageLeader(currentPage, pageSize, isActive, id);
+        PageVo<UserVo> result = new PageVo<>();
+        result.setRecords(pageObj.getRecords().stream().map(UserVo::new).collect(Collectors.toList()));
+        return ApiResult.success(result.getRecords());
+    }
+
+    /**
+     * 分页查询所属的记录(领导)
+     * @param currentPage   当前页面
+     * @param pageSize   当前页面的总条数
+     * @param isActive   是否被激活
+     * @param id         领导id
+     * @return  ApiResult<Long>
+     */
+    @GetMapping("/total/{id}")
+    public ApiResult<Long> queryByPageTotalLeader(Integer currentPage, Integer pageSize, Integer isActive, @PathVariable String id){
+        IPage<User> pageObj = userService.queryByPageTotalLeader(currentPage, pageSize, isActive,id);
+        PageVo<UserVo> result = new PageVo<>();
+        result.setTotal(pageObj.getTotal());
+        return ApiResult.success(result.getTotal());
+    }
+
+    /**
+     *关键字查询(管理员)
      * @param username  用户名
+     * @param isActive  是否被激活
      * @return  ApiResult<UserVo>
      */
     @GetMapping("/search")
     public ApiResult<List<UserVo>> queryByUsername(String username, Integer isActive){
         List<UserVo> userVos = new ArrayList<>();
         List<User> users = userService.queryByUsername(username, isActive);
+        for (User user:users){
+            UserVo userVO =new UserVo();
+            BeanUtils.copyProperties(user,userVO);
+            userVos.add(userVO);
+        }
+        return  ApiResult.success(userVos);
+    }
+
+    /**
+     *关键字查询(领导)
+     * @param username  用户名
+     * @param isActive  是否被激活
+     * @param id        领导id
+     * @return  ApiResult<UserVo>
+     */
+    @GetMapping("/search/{id}")
+    public ApiResult<List<UserVo>> queryByUsernameLeader(String username, Integer isActive, @PathVariable String id){
+        List<UserVo> userVos = new ArrayList<>();
+        List<User> users = userService.queryByUsernameLeader(username, isActive, id);
         for (User user:users){
             UserVo userVO =new UserVo();
             BeanUtils.copyProperties(user,userVO);

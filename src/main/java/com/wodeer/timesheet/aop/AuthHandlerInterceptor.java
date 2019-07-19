@@ -16,11 +16,11 @@ import javax.servlet.http.HttpServletResponse;
  * @author richard
  * @date 2019-06-21 20:04
  */
-@SuppressWarnings("AlibabaRemoveCommentedCode")
 @Component
 public class AuthHandlerInterceptor implements HandlerInterceptor {
     private static final String TOKEN_PARAM_KEY = "userId";
     private static final String ANONYMOUS_ACCESS_PREFIX = "/login/findUserByUP";
+    private static final String ANONYMOUS_ACCESS_PREFIX2 = "/";
     private static final String DOWNLOAD_URL_PREFIX= "/file/download/";
 
     @Autowired
@@ -29,7 +29,7 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         // 身份认证模块的请求不需要在这里截断做验证，直接放行
-        if (request.getServletPath().startsWith(ANONYMOUS_ACCESS_PREFIX)) {
+        if (request.getServletPath().startsWith(ANONYMOUS_ACCESS_PREFIX) || request.getServletPath().startsWith(ANONYMOUS_ACCESS_PREFIX2) ) {
             return true;
         }
         // 大部分请求是把token放在header中

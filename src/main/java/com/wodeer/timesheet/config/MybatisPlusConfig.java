@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @MapperScan("com.wodeer.timesheet.dao")
 public class MybatisPlusConfig {
-
     /**
      * 开启分页插件
      */

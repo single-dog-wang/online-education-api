@@ -1,6 +1,5 @@
 package com.wodeer.timesheet.viewobject;
 
-import com.wodeer.timesheet.entity.Task;
 import lombok.Data;
 
 import java.util.Date;
@@ -34,18 +33,4 @@ public class TaskVo {
      * 记录创建时间（仅仅是记录作用）
      */
     private Date createTime;
-
-    /**
-     * 从实体对象转换的构造函数
-     * @param task 实体对象
-     */
-    public TaskVo(Task task) {
-        this.id = task.getId();
-        this.workContent = task.getWorkContent();
-        this.workType = task.getWorkType();
-        this.createTime = task.getCreateTime();
-    }
-
-    public TaskVo() {
-    }
 }
