@@ -30,18 +30,6 @@ public class LoginService extends ServiceImpl<LoginDao, User> {
      * 根据username和password来查询userType
      */
     public ApiResult findUserByUserNameAndPassword(String username, String password) {
-        String name = "admin";
-        String pwd = "123456";
-        if(name.equals(username) && pwd.equals(password)){
-            User user = new User();
-            user.setUsername(name);
-            user.setPassword(pwd);
-            user.setId(1);
-            user.setIsActive(1);
-            user.setUserType(2);
-            return ApiResult.success(user);
-        }
-
         User user = this.baseMapper.selectOne(
                 new LambdaQueryWrapper<User>()
                         .eq(User::getUsername, username)

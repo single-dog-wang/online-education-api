@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthHandlerInterceptor implements HandlerInterceptor {
     private static final String TOKEN_PARAM_KEY = "userId";
     private static final String ANONYMOUS_ACCESS_PREFIX = "/login/findUserByUP";
-    private static final String ANONYMOUS_ACCESS_PREFIX2 = "/";
+    private static final String ANONYMOUS_ACCESS_PREFIX2 = "/exportTask";
     private static final String DOWNLOAD_URL_PREFIX= "/file/download/";
 
     @Autowired

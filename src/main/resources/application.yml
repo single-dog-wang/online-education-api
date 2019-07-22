@@ -9,9 +9,9 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     name: timesheet_dev
-    url: jdbc:mysql://120.77.237.202:3306/timesheet_dev?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+    url: jdbc:mysql://mysql.wodeer.top:3306/timesheet_dev?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai&allowMultiQueries=true
     username: user4timesheet_dev
-    password: hGV5h74
+    password: Rxx3B70&6Y
     hikari:
       pool-name: timesheet-api
       minimum-idle: 2
