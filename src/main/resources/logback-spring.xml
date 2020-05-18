@@ -18,7 +18,7 @@
         <encoder class="de.siegmar.logbackgelf.GelfEncoder">
             <includeRootCauseData>true</includeRootCauseData>
             <includeLevelName>true</includeLevelName>
-            <staticField>app_name:timesheet-api</staticField>
+            <staticField>app_name:online_education</staticField>
         </encoder>
     </appender>
     <!-- 控制台输出日志级别 -->

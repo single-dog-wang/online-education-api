@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wodeer.timesheet.dao.DemoDao">
-    <select id="customerQuery" resultType="com.wodeer.timesheet.entity.Demo">
+<mapper namespace="com.god.online_education.dao.DemoDao">
+    <select id="customerQuery" resultType="com.god.online_education.entity.Demo">
         select id, demo_name from demo where id <![CDATA[<= ]]> #{id};
     </select>
 </mapper>
